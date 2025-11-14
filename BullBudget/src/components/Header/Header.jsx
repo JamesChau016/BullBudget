@@ -1,6 +1,8 @@
 import styles from './Header.module.css'
 
 const Header = ({ children }) => {
+    const logoSource = "public/USF_Logo.png";
+    
     return (
         <>
             <nav
@@ -10,7 +12,7 @@ const Header = ({ children }) => {
                     className = {`${styles['header-app-info']}`}
                 >
                     <img
-                        src = "public/USF_Logo.png"
+                        src = {logoSource}
                         className = {`${styles['header-usf-logo']}`}
                     ></img>
                     <span
@@ -30,3 +32,4 @@ const Header = ({ children }) => {
 }
 
 export default Header
+

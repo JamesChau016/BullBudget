@@ -1,6 +1,7 @@
 import styles from './Landing.module.css';
 import { useState } from 'react';
-import Header from '../components/Header'
+import Header from '../components/Header/Header.jsx'
+import NavigationButton from '../components/NavigationButton/NavigationButton.jsx';
 
 const Landing = () => {
     return (
@@ -8,7 +9,14 @@ const Landing = () => {
             <div
                 className = {`${styles.container}`}
             >
-                <Header></Header>
+                <Header>
+                    <NavigationButton
+                        label = "nothing"
+                        onClick = {() => console.log('Button clicked')}
+                    >
+
+                    </NavigationButton>
+                </Header>
             </div>
         </>
     )
