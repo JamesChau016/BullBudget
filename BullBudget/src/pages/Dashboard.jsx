@@ -39,6 +39,10 @@ const Dashboard = () => {
 
   
   const totalBalance = budgets.reduce((sum, jar) => sum + jar.balance, 0);
+
+  const handleAddJar = () => {
+    alert("Later dev");
+  };
   
   return (
     <div className="dashboard-container">
