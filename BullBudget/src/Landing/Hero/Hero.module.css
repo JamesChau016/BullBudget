@@ -1,38 +1,43 @@
 .hero-container {
     margin: 0;
-    padding: 0;
+    padding: 3rem 2rem;
     display: flex;
-    flex-direction: start;
+    flex-direction: row;
     align-items: center;
-    justify-content: start;
-    background-color: #52b69a;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #0d8e7e 0%, #0f6e5a 100%);
+    min-height: 400px;
+    gap: 3rem;
 }
 
 .hero-headlines {
-    margin: 0 2rem 0 0;
-    padding: 1.5rem 2rem;
+    margin: 0;
+    padding: 0;
     display: flex;
-    flex-direction: column;;
-    justify-content: start;
-    text-align: start;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: left;
+    flex: 1;
 }
 
 .hero-headline {
-    margin: 0;
+    margin: 0 0 1rem 0;
     padding: 0;
     width: 100%;
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #184e77;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.2;
 }
 
 .hero-subheadline {
-    margin: .5rem 0 0 0;
+    margin: 0;
     padding: 0;
-    font-size: 1.25rem;
-    font-weight: 500;
-    color: #1e6091;
-    opacity: .5;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #ffffff;
+    opacity: 0.95;
+    line-height: 1.6;
 }
 
 .hero-image-container {
@@ -40,8 +45,11 @@
     flex: 1;
     align-items: center;
     justify-content: center;
-    width: 100px;
+    min-height: 300px;
     font-size: 2rem;
     font-weight: 600;
-    color: #1e6091;
+    color: #ffffff;
+    background-color: rgba(255, 209, 102, 0.15);
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 209, 102, 0.3);
 }
