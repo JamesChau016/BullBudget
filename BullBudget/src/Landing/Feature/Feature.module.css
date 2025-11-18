@@ -1,0 +1,15 @@
+.feature-container {
+    margin: 0;
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.feature-headline {
+    margin: 0;
+    padding: 0;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #1e6091;
+}
