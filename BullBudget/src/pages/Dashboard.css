@@ -1,0 +1,28 @@
+
+.dashboard-container {
+  width: 95%; 
+  max-width: 1500px; 
+  margin: 20px auto;
+  padding: 30px; 
+  background-color: #f4f7f6;
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+  min-height: 500px; 
+}
+
+
+.welcome-screen {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  justify-content: center;
+  padding-top: 100px; 
+  text-align: center;
+}
+
+.welcome-screen h2 {
+  font-size: 2.8rem; 
+  color: #2c3e50;
+  margin-bottom: 40px;
+}
+
