@@ -1,6 +1,6 @@
 import styles from './NavigationButton.module.css'
 
-const NavigationButton = ({ navigateTo, onClick, label, style, className, children }) => {
+const NavigationButton = ({ navigateTo, onClick, style, className, children }) => {
     return (
         <>
             <a
@@ -8,7 +8,6 @@ const NavigationButton = ({ navigateTo, onClick, label, style, className, childr
                 onClick = {onClick}
                 style = {style}
              >
-                {label}
                 {children}
             </a>
         </>

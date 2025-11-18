@@ -1,0 +1,47 @@
+.hero-container {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: start;
+    align-items: center;
+    justify-content: start;
+    background-color: #52b69a;
+}
+
+.hero-headlines {
+    margin: 0 2rem 0 0;
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;;
+    justify-content: start;
+    text-align: start;
+}
+
+.hero-headline {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #184e77;
+}
+
+.hero-subheadline {
+    margin: .5rem 0 0 0;
+    padding: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #1e6091;
+    opacity: .5;
+}
+
+.hero-image-container {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1e6091;
+}
