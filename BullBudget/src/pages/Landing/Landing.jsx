@@ -1,7 +1,7 @@
 import styles from './Landing.module.css';
 import { useState } from 'react';
-import Header from '../components/Header/Header.jsx'
-import NavigationButton from '../components/NavigationButton/NavigationButton.jsx';
+import Header from '../../components/Header/Header.jsx'
+import NavigationButton from '../../components/NavigationButton/NavigationButton.jsx';
 import Hero from './Hero/Hero.jsx';
 import Feature from './Feature/Feature.jsx';
 
@@ -19,6 +19,10 @@ const LandingContent = () => {
 }
 
 const Landing = () => {
+    const handleLoginClicked = () => {
+        console.log('Login')
+    }
+
     return (
         <>
             <div
@@ -26,9 +30,10 @@ const Landing = () => {
             >
                 <Header>
                     <NavigationButton
-                        onClick = {() => console.log('Button clicked')}
+                        className = {`${styles['navigation-button login-button']}`}
+                        onClick = {handleLoginClicked}
                     >
-                        Nothing
+                        Login
                     </NavigationButton>
                 </Header>
                 <LandingContent>

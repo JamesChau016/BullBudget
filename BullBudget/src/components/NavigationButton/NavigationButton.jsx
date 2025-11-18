@@ -1,10 +1,11 @@
 import styles from './NavigationButton.module.css'
 
-const NavigationButton = ({ navigateTo, onClick, style, className, children }) => {
+const NavigationButton = ({ navigateTo, onClick, style, className = '', children }) => {
+    const mergedClassName = `${styles['button-container']} ${className}`;
     return (
         <>
             <a
-                className = {`${styles['button-container']} ${className}`}
+                className = {mergedClassName}
                 onClick = {onClick}
                 style = {style}
              >

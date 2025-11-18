@@ -11,3 +11,8 @@
     padding: 0;
     flex: 1;
 }
+
+.container .navigation-button {
+    padding: .5rem 1rem;
+    height: auto; 
+}

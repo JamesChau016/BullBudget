@@ -1,4 +1,5 @@
 import styles from './Hero.module.css'
+import NavigationButton from '../../../components/NavigationButton/NavigationButton'
 
 const Hero = () => {
     return (
@@ -18,6 +19,11 @@ const Hero = () => {
                 >
                     Start managing your budgets towards graduation from today.
                 </h3>
+                <button
+                    className = {`${styles['action-button']}`}
+                >
+                    Start Now
+                </button>
             </div>
             <div
                 className = {`${styles['hero-image-container']}`}

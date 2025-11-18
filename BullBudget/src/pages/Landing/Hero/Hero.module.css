@@ -53,3 +53,34 @@
     border-radius: 1rem;
     border: 1px solid rgba(255, 209, 102, 0.3);
 }
+
+.action-button {
+    margin: 2rem auto 0;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 1rem 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #679436 0%, #5a8230 100%);
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(103, 148, 54, 0.3);
+}
+
+.action-button:hover {
+    background: linear-gradient(135deg, #5a8230 0%, #4e7129 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(103, 148, 54, 0.4);
+}
+
+.action-button:active {
+    transform: translateY(0);
+}
+
+.action-button:focus {
+    outline: none;
+}
