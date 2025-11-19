@@ -1,0 +1,177 @@
+body{
+    font-family: 'Arial', sans-serif;
+    background-color: hsla(51, 100%, 50%, 0.338);
+    margin: 0;
+    padding: 20px;
+}
+
+#page-title {
+    font-size: 5rem;
+    text-align: center;
+    color: hsl(120, 97%, 13%);
+}
+#add-jars {
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 1.5rem;
+    border: #c0ffc1 2px solid;
+    box-shadow: 2px 2px 12px hsla(0, 1%, 19%, 0.71);
+    border-radius: 5px;
+    width: 200px;
+}
+#add-jars:focus {
+    outline: none;
+    border-color: hsl(120, 97%, 30%);
+    box-shadow: 0 0 5px hsl(120, 97%, 30%);
+}
+#add-jar-button {
+    padding: 10px 20px;
+    font-size: 1.5rem;
+    background-color: hsla(120, 100%, 30%, 0.897);
+    color: rgb(255, 231, 97);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 2px 2px 12px hsla(0, 1%, 19%, 0.71);
+    margin-left:20px;
+}
+#add-jar-button:hover {
+    background-color: hsla(120, 100%, 40%, 0.897);
+}
+#add-jar-button:active {
+    transform: scale(0.9);
+    background-color: hsla(120, 100%, 50%, 0.897);
+}
+.jars-container{
+    font-size: 1.5rem;
+    display: grid;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+.jar {
+    margin:0 auto;
+    width: 200px;
+    height: 150px;
+    border: 2px solid #bff2c0;
+    border-radius: 10px;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    background-color: hsla(0, 0%, 93%, 0.838);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+#jar-label {
+    margin:0 auto;
+    display:flex;
+    color: hsl(117, 100%, 15%);
+    font-size:2rem;
+    text-align: center;
+    text-shadow: 0 0 3px rgba(233, 233, 233, 0.951);
+}
+.jar.expanded #jar-label {
+    text-shadow: 0 0 8px rgba(233, 233, 233, 0.951);
+    font-size: 4rem;
+    color: hsl(117, 100%, 15%);
+}
+.jar.expanded {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85vw;
+    height: 85vh;
+    z-index: 500;
+    border: 2px solid #bff2c0;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    background-color: #f1f1f1;
+    text-align: center;
+    color:hsl(193, 97%, 13%);
+    font-size: 3rem;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    
+  }
+.jar-color-controls {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    gap: 0;
+    align-items: center;
+    z-index: 1001;
+    background-color: hsla(278, 100%, 24%, 0.897);
+    border-radius: 5px;
+    box-shadow: 2px 2px 12px hsla(0, 1%, 19%, 0.71);
+    padding: 2px;
+  }
+  #jar-color-picker{
+    width: 35px;
+    height: 30px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    background: none;
+    padding: 0;
+  }
+  #change-jar-color{
+    padding: 10px 10px;
+    font-size: 1rem;
+    background-color: transparent;
+    color: white;
+    border: none;
+    border-radius: 0 3px 3px 0;
+    cursor: pointer;
+    box-shadow: none;
+    white-space: nowrap;
+  }
+  #change-jar-color:hover {
+    background-color: hsla(240, 100%, 60%, 0.9);
+  }
+#remove-jar{
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: hsla(0, 100%, 42%, 0.897);
+    color: hsl(0, 0%, 92%);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 2px 2px 12px hsla(0, 1%, 19%, 0.71);
+  }
+  #remove-jar:hover {
+    background-color: hsla(0, 100%, 60%, 0.897);
+  }
+.jar-details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+  }
+.jar-details-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+    padding-bottom: 10px;
+  }
+#close-jar{
+    position: static;
+    padding: 10px 20px;
+    background-color: hsla(240, 100%, 50%, 0.897);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    box-shadow: 2px 2px 12px hsla(0, 1%, 19%, 0.71);
+  }
+  #close-jar:hover {
+    background-color: hsla(240, 100%, 70%, 0.897);
+  }
