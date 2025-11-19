@@ -1,16 +1,6 @@
 #root {
-  margin: 0;
-  padding: 0;
-  width: 100vw;
-  text-align: center;
-}
-
-.app-container {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  box-sizing: border-box;
+  
   width: 100%;
+  margin: 0;
+  padding: 0;
 }
