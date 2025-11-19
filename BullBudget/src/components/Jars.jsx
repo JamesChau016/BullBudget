@@ -16,7 +16,7 @@ function Jars() {
     const jarName = document.getElementById('add-jars').value;
     if ((!jarNames.includes(jarName)) && jarName.trim() !== ""){
       setJarNames([...jarNames, jarName]);
-      toast.success(`Jar "${jarName}" added successfully!`);
+      toast.success(`Jar "${jarName}" added`);
     }
     else{
       toast.error('Please fill in a Jar name!');
@@ -24,11 +24,15 @@ function Jars() {
   }
 
   function removeJar(){
-    if (expandedJar !== null){
+    if ((expandedJar !== null)&& (jarNames.length > 1)){
+      const jarN = jarNames[expandedJar];
       const temp = jarNames.filter((_, index) => index !== expandedJar);
       setJarNames(temp);
-      toast.success('Jar removed successfully!');
+      toast.success(`Jar "${jarN}" removed`);
       setExpandedJar(null);
+    }
+    else{
+      toast.error('You must have at least one jar!');
     }
   }
   
@@ -54,7 +58,7 @@ function Jars() {
       <div className="jars-container">
         {listJars.map((jarName, index) => (
           <div 
-            onClick={() => !expandedJar && expandJar(index)} 
+            onClick={() => expandedJar === null && expandJar(index)} 
             key={index} 
             className={`jar ${expandedJar === index ? 'expanded' : ''}`}
             style={{backgroundColor: jarColors[index]}}
