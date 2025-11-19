@@ -3,13 +3,17 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import {Toaster} from 'react-hot-toast'
 import './App.css'
-import Jars from './components/Jars.jsx'
+import Landing from './pages/Landing/Landing'
+import Dashboard from './pages/Dashboard/Dashboard'
 
 function App() {
   return (
-    <> 
-      <Jars />
-      <Toaster position="top-center" />
+    <>
+      <div
+        className = 'app-container'
+      >
+        <Dashboard></Dashboard>
+      </div>
     </>
     
   )

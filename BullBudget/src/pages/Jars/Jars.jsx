@@ -1,8 +1,6 @@
 import React,{ useState } from 'react'
 import toast from 'react-hot-toast'
-import './Jars.css'
-
-
+import styles from './Jars.module.css'
 
 function Jars() {
   const [jarNames, setJarNames] = useState(['BullBucks', 'Dining Dollars', 'School Fees', 'Personal Expenses', 'Saving', 'Necessities' ]);
@@ -10,7 +8,6 @@ function Jars() {
   const [jarColors, setJarColors] = useState(['hsla(0, 0%, 93%, 1.00)', 'hsla(0, 0%, 93%, 1.00)', 'hsla(0, 0%, 93%, 1)', 'hsla(0, 0%, 93%,1)', 'hsla(0, 0%, 93%, 1)', 'hsla(0, 0%, 93%, 1)']);
   const jarNum= jarNames.length;
   const listJars = jarNames;
-
 
   function addJar(){
     const jarName = document.getElementById('add-jars').value;
@@ -39,7 +36,6 @@ function Jars() {
 
   function expandJar(index){
     setExpandedJar(expandedJar === index ? null : index);
-
   }
 
   function changeJarColor(index){
@@ -49,31 +45,30 @@ function Jars() {
     setJarColors(updatedColors);
   }
 
-
   return (
     <>
-      <h1 id='page-title'>Your {jarNum} financial Jars</h1>
-      <input type='text' id='add-jars' placeholder='New jar name' required/>
-      <button onClick={addJar} id='add-jar-button'>Add Jar</button>
-      <div className="jars-container">
+      <h1 id={styles['page-title']}>Your {jarNum} financial Jars</h1>
+      <input type='text' id={styles['add-jars']} placeholder='New jar name' required/>
+      <button onClick={addJar} id={styles['add-jar-button']}>Add Jar</button>
+      <div className={styles['jars-container']}>
         {listJars.map((jarName, index) => (
           <div 
             onClick={() => expandedJar === null && expandJar(index)} 
             key={index} 
-            className={`jar ${expandedJar === index ? 'expanded' : ''}`}
+            className={`${styles.jar} ${expandedJar === index ? styles.expanded : ''}`}
             style={{backgroundColor: jarColors[index]}}
           >
-            <h2 id='jar-label'>{jarName}</h2>
+            <h2 id={styles['jar-label']}>{jarName}</h2>
             {expandedJar === index && (
               <>
-                <div className="jar-color-controls">
-                  <input type='color' id='jar-color-picker'  />
-                  <button id='change-jar-color' onClick={() => changeJarColor(index)}>Change Color</button>
+                <div className={styles['jar-color-controls']}>
+                  <input type='color' id={styles['jar-color-picker']}  />
+                  <button id={styles['change-jar-color']} onClick={() => changeJarColor(index)}>Change Color</button>
                 </div>
-                <div className="jar-details">
-                  <div className="jar-details-buttons">
-                    <button id='close-jar' onClick={(e) => {e.stopPropagation(); expandJar(index);}}>Close</button>
-                    <button id='remove-jar' onClick={(e) => {e.stopPropagation(); removeJar();}}>Remove Jar</button>
+                <div className={styles['jar-details']}>
+                  <div className={styles['jar-details-buttons']}>
+                    <button id={styles['close-jar']} onClick={(e) => {e.stopPropagation(); expandJar(index);}}>Close</button>
+                    <button id={styles['remove-jar']} onClick={(e) => {e.stopPropagation(); removeJar();}}>Remove Jar</button>
                   </div>
                 </div>
               </>
@@ -84,8 +79,5 @@ function Jars() {
     </>
   )
 }
-
-
-
 
 export default Jars
