@@ -4,6 +4,7 @@ import Header from '../../components/Header/Header.jsx'
 import NavigationButton from '../../components/NavigationButton/NavigationButton.jsx';
 import Hero from './Hero/Hero.jsx';
 import Feature from './Feature/Feature.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const LandingContent = () => {
     return (
@@ -19,8 +20,10 @@ const LandingContent = () => {
 }
 
 const Landing = () => {
+    const navigate = useNavigate();
+
     const handleLoginClicked = () => {
-        console.log('Login')
+        navigate('/dashboard');
     }
 
     return (
