@@ -1,7 +1,14 @@
 import styles from './Hero.module.css'
 import NavigationButton from '../../../components/NavigationButton/NavigationButton'
+import { useNavigate } from 'react-router-dom'
 
 const Hero = () => {
+    const navigate = useNavigate();
+
+    const handleStartClicked = () => {
+        navigate('/dashboard');
+    }
+
     return (
         <div
             className = {`${styles['hero-container']}`}
@@ -21,6 +28,7 @@ const Hero = () => {
                 </h3>
                 <button
                     className = {`${styles['action-button']}`}
+                    onClick = {handleStartClicked}
                 >
                     Start Now
                 </button>
