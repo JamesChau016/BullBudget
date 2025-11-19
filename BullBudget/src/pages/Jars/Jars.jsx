@@ -2,13 +2,15 @@ import React,{ useState } from 'react'
 import toast from 'react-hot-toast'
 import styles from './Jars.module.css'
 
+//sửa một vài tham số để đồng bộ với App.jsx với Dashboard.jsx
 function Jars({ budgets, setBudgets }) {
   const [expandedJar, setExpandedJar] = useState(null);
   const [jarColors, setJarColors] = useState(
     budgets.map(() => 'hsla(0, 0%, 93%, 1.00)'));
   const jarNum= budgets.length;
-  const listJars = budgets;
+  // xóa dòng const listJars = budgets;
 
+  // Sửa JarName thành budgets
   function addJar() {
     const jarName = document.getElementById('add-jars').value;
     const nameExists = budgets.some(b => b.name === jarName);
@@ -25,6 +27,7 @@ function Jars({ budgets, setBudgets }) {
     }
   }
 
+// Update để dùng budgets array
   function removeJar() {
     if (expandedJar !== null && budgets.length > 1) {
       const jarN = budgets[expandedJar].name;
@@ -35,7 +38,6 @@ function Jars({ budgets, setBudgets }) {
       toast.error('You must have at least one jar!');
     }
   }
-
 
   function expandJar(index){
     setExpandedJar(expandedJar === index ? null : index);
@@ -62,6 +64,7 @@ function Jars({ budgets, setBudgets }) {
             style={{backgroundColor: jarColors[index]}}
           >
             <h2 id={styles['jar-label']}>{budget.name}</h2>
+
             {expandedJar === index && (
               <>
                 <div className={styles['jar-color-controls']}>
@@ -76,6 +79,7 @@ function Jars({ budgets, setBudgets }) {
                 </div>
               </>
             )}
+            
           </div>
         ))}
       </div>
