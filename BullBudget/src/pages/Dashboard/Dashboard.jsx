@@ -2,26 +2,13 @@ import React, { useState } from 'react';
 
 import styles from './Dashboard.module.css';
 
-const Dashboard = () => {
-  const [budgets, setBudgets] = useState([ 
-    { id: 1, name: 'BullBucks', balance: 150 },
-    { id: 2, name: 'Dining Dollars', balance: 150 },
-    { id: 3, name: 'Tuition Fee', balance: 5000 },
-  ]);
-
-  const [isShelfOpen, setIsShelfOpen] = useState(false); 
+const Dashboard = ({ budgets, setBudgets }) => {
+   
   const totalBalance = budgets.reduce((sum, jar) => sum + jar.balance, 0);
 
   return (
     <div className={styles.dashboardContainer}>
-      {!isShelfOpen ? (
-        <div className={styles.welcomeScreen}>
-          <h2>Let's manage your budget</h2>
-          <button className={styles.btnPrimary} onClick={() => setIsShelfOpen(true)}>
-            Manage your Budget
-          </button>
-        </div>
-      ) : (
+      { (
         <> 
           {}
           <header className={styles.dashboardHeader}>
@@ -29,9 +16,7 @@ const Dashboard = () => {
               <h2>Total Balance</h2>
               <span className={styles.totalAmount}>${totalBalance.toLocaleString()}</span>
             </div>
-            <button className={styles.btnPrimary} onClick={() => alert("Later dev")}>
-              + Add Jar
-            </button>
+            
           </header>
 
           {}
