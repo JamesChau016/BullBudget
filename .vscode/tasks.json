@@ -11,7 +11,7 @@
         {
             "label": "run",
             "type": "shell",
-            "command": "cd BullBudget && npm run dev",
+            "command": "npm run dev",
             "group": {
                 "kind": "build",
                 "isDefault": true,
