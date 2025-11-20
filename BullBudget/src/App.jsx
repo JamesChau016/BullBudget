@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard/Dashboard'
 import Jars from './pages/Jars/Jars'
 import { initialBudgets } from './Data/budgetData'
 import { Route, Routes, useNavigate } from 'react-router-dom'
+import BudgetList from './components/BudgetList/BudgetList'
 
 const NavigationWrapper = ({ budgets, setBudgets }) => {
   const navigate = useNavigate();
@@ -39,12 +40,15 @@ const NavigationWrapper = ({ budgets, setBudgets }) => {
 const TestElement = () => {
   const [budgets, setBudgets] = useState(initialBudgets);
   return (
-      <>  
-        <Toaster />
-        <div className='app-container'>
-          <Dashboard budgets={budgets} setBudgets={setBudgets} />
-          <Jars budgets={budgets} setBudgets={setBudgets} />
-        </div>
+      <>
+        <BudgetList
+          budgets = {budgets}
+          setBudgets = {setBudgets}
+        ></BudgetList>
+        <Jars
+          budgets = {budgets}
+          setBudgets = {setBudgets}
+        ></Jars>
       </>
   )
 }
@@ -57,9 +61,14 @@ function App() {
     <>
       <NavigationWrapper
         budgets = {budgets}
-        setBudgets = {budgets}
+        setBudgets = {setBudgets}
       >
       </NavigationWrapper>
+      {/* <TestElement
+        budgets = {budgets}
+        setBudgets = {setBudgets}
+      >
+      </TestElement> */}
     </>
   )
 }

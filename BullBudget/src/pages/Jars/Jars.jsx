@@ -2,6 +2,9 @@ import React,{ useState } from 'react'
 import toast from 'react-hot-toast'
 import styles from './Jars.module.css'
 
+//từ đây đổi tên thành component để chứa các Budgets
+
+
 //sửa một vài tham số để đồng bộ với App.jsx với Dashboard.jsx
 function Jars({ budgets, setBudgets }) {
   const [expandedJar, setExpandedJar] = useState(null);
