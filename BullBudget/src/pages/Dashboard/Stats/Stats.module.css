@@ -1,0 +1,30 @@
+.stats {
+  min-width: 260px;
+}
+
+.stats-heading {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: left;
+  color: #0d8e7e;
+}
+
+.stats-content {
+  padding: 0.5rem 0;
+}
+
+.stat-item {
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #444;
+}
+
+.stat-value {
+  color: #0d8e7e;
+  font-weight: 800;
+  display: inline-block;
+}
