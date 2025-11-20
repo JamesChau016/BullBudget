@@ -8,6 +8,7 @@ import { initialBudgets } from './Data/budgetData'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import BudgetList from './components/BudgetList/BudgetList'
 import { db } from '../firebase/firebase'
+import Login from './components/Login'
 
 const NavigationWrapper = ({ budgets, setBudgets }) => {
   const navigate = useNavigate();
@@ -42,14 +43,7 @@ const TestElement = () => {
   const [budgets, setBudgets] = useState(initialBudgets);
   return (
       <>
-        <BudgetList
-          budgets = {budgets}
-          setBudgets = {setBudgets}
-        ></BudgetList>
-        <Jars
-          budgets = {budgets}
-          setBudgets = {setBudgets}
-        ></Jars>
+        <Login></Login>
       </>
   )
 }
@@ -60,16 +54,16 @@ function App() {
 
   return (
     <>
-      <NavigationWrapper
+      {/* <NavigationWrapper
         budgets = {budgets}
         setBudgets = {setBudgets}
       >
-      </NavigationWrapper>
-      {/* <TestElement
+      </NavigationWrapper> */}
+      <TestElement
         budgets = {budgets}
         setBudgets = {setBudgets}
       >
-      </TestElement> */}
+      </TestElement>
     </>
   )
 }
