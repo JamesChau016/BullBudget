@@ -1,16 +1,24 @@
-# React + Vite
+# BullBudget 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern FinTech dashboard designed to make personal budget management intuitive and engaging using the "Savings Jars" concept.
 
-Currently, two official plugins are available:
+## Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+BullBudget is a full stack webapp application built with Vite and React for frontend, Node.js and Firebase to provide real-time data synchronization. It features a clean, grid-based dashboard that allows users to track their total balance, view spending statistics, and manage individual budget categories (Jars).
 
-## React Compiler
+The project focuses on modularity and clean UI architecture using standard CSS Modules.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+* **Interactive Welcome Screen:** A clean entry interface that "opens up" to reveal the main dashboard.
+* **Smart Dashboard Layout:** A responsive grid layout separating visual data from detailed statistics.
+* **Budget Tracking:** Tracks balances across different categories (e.g., BullBucks, Dining Dollars, Personal Use).
+* **Dynamic Balance:** Automatically calculates the total balance from all budget categories.
+* **Modular Styling:** Utilizes **CSS Modules** (`*.module.css`) to ensure component-scoped styling and prevent CSS conflicts.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Tech Stack
+
+* **Frontend:** React 
+* **Build Tool:** Vite
+* **Backend:** Node.js
+* **Database:** Firebase

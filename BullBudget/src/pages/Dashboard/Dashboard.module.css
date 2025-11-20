@@ -1,28 +1,121 @@
-
-.dashboard-container {
-  width: 95%; 
-  max-width: 1500px; 
-  margin: 20px auto;
-  padding: 30px; 
-  background-color: #f4f7f6;
-  border-radius: 10px;
+.dashboardContainer {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
   font-family: Arial, sans-serif;
-  min-height: 500px; 
+  box-sizing: border-box;
 }
 
 
-.welcome-screen {
+.welcomeScreen {
   display: flex;
   flex-direction: column; 
   align-items: center;
   justify-content: center;
-  padding-top: 100px; 
+  height: 80vh;
   text-align: center;
 }
+.welcomeScreen h2 { font-size: 2.5rem; color: #333; }
 
-.welcome-screen h2 {
-  font-size: 2.8rem; 
-  color: #2c3e50;
-  margin-bottom: 40px;
+
+.dashboardHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
 }
 
+.totalSummary h2 { 
+  margin: 0; font-size: 1rem; color: #666;
+  text-align: center;
+ }
+.totalAmount { 
+  display: block;          
+  font-size: 2rem; 
+  font-weight: bold; 
+  color: #333;
+  text-align: center;       
+}
+
+.btnPrimary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .dashboardGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.card {
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+  margin-top: 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.boxPlaceholder {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border: 2px dashed #aaa;
+}
+
+.boxTransactions {
+  min-height: 200px;
+}
+
+.transactionItem {
+  padding: 10px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.boxStats {
+  min-height: 520px;
+}
