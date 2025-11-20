@@ -18,7 +18,6 @@ const Dashboard = ({ budgets, setBudgets }) => {
             </div>
             
           </header>
-
           {}
           <main className={styles.dashboardGrid}>
             
