@@ -5,19 +5,21 @@ import { getAuth } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCAAl4TOZcxxdKdIbowRgmVR_f3h8Sv0yI",
-    authDomain: "bullbudget-9c4af.firebaseapp.com",
-    databaseURL: "https://bullbudget-9c4af-default-rtdb.firebaseio.com",
-    projectId: "bullbudget-9c4af",
-    storageBucket: "bullbudget-9c4af.firebasestorage.app",
-    messagingSenderId: "465060082900",
-    appId: "1:465060082900:web:0c7fcb881df1180f4bb741",
-    measurementId: "G-9176G8VQH2"
-  };
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+};
+
+console.log(firebaseConfig)
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 // export the services you need:
 export const db = getFirestore(app);         // Cloud Firestore
-export const rtdb = getDatabase(app);       // Realtime Database (optional)
+// export const rtdb = getDatabase(app);       // Realtime Database (optional)
 export const auth = getAuth(app);           // Authentication
