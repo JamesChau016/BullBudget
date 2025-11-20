@@ -7,7 +7,7 @@ import Jars from './pages/Jars/Jars'
 import { initialBudgets } from './Data/budgetData'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import BudgetList from './components/BudgetList/BudgetList'
-import { db } from '../firebase'
+import { db } from '../firebase/firebase'
 
 const NavigationWrapper = ({ budgets, setBudgets }) => {
   const navigate = useNavigate();
