@@ -34,6 +34,7 @@ body{
     cursor: pointer;
     box-shadow: 2px 2px 12px hsla(0, 1%, 19%, 0.71);
     margin-left:20px;
+    float: right;
 }
 #add-jar-button:hover {
     background-color: hsla(120, 100%, 40%, 0.897);

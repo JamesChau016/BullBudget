@@ -1,84 +1,71 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+
 import styles from './Dashboard.module.css';
 
-// Lọ placeholder
-const Jar = ({ name, balance }) => {
-  const maxCapacity = 5000;
-  const waterHeightPercent = Math.min((balance / maxCapacity) * 100, 100);
-  const waterStyle = { height: `${waterHeightPercent}%` };
-
-  return (
-    <div className={styles.jar}>
-      <div className={styles['jar-lid']}></div>
-      <div className={styles['jar-body']}>
-        <div className={styles.water} style={waterStyle}></div>
-      </div>
-      <div className={styles['jar-info']}>
-        <span className={styles['jar-name']}>{name}</span>
-        <span className={styles['jar-balance']}>${balance}</span>
-      </div>
-    </div>
-  );
-}
-
-// Dashboard tổng
-const Dashboard = () => {
-  const [budgets, setBudgets] = useState([ 
-    { id: 1, name: 'BullBucks', balance: 150 },
-    { id: 2, name: 'Dining Dollars', balance: 150 },
-    { id: 3, name: 'Tuition Fee', balance: 5000 },
-    { id: 4, name: 'Personal Expenses', balance: 250 },
-    { id: 5, name: 'Transportation', balance: 0 },
-  ]);
-
-  const [isShelfOpen, setIsShelfOpen] = useState(false); 
-
+const Dashboard = ({ budgets, setBudgets }) => {
+   
   const totalBalance = budgets.reduce((sum, jar) => sum + jar.balance, 0);
 
-  const handleAddJar = () => {
-    alert("Later dev");
-  };
-  
   return (
-    <div className={styles['dashboard-container']}>
-
-      {!isShelfOpen ? (
-        
-        <div className={styles['welcome-screen']}>
-          <h2>Let's manage your budget</h2>
-          <button 
-            className={styles['add-jar-btn']} 
-            onClick={() => setIsShelfOpen(true)} 
-          >
-            Manage your Budget
-          </button>
-        </div>
-
-      ) : (
-        
+    <div className={styles.dashboardContainer}>
+      { (
         <> 
-          <header className={styles['dashboard-header']}>
-            <div className={styles['total-summary']}>
-              <h2>Balance</h2>
-              <span className={styles['total-amount']}>${totalBalance.toLocaleString()}</span>
+          {}
+          <header className={styles.dashboardHeader}>
+            <div className={styles.totalSummary}>
+              <h2>Total Balance</h2>
+              <span className={styles.totalAmount}>${totalBalance.toLocaleString()}</span>
             </div>
-            <button className={styles['add-jar-btn']} onClick={handleAddJar}>
-              + Add Jar
-            </button>
+            
           </header>
 
-          <main className={styles['shelf-grid']}>
-            {budgets.map((item) => (
-              <Jar 
-                key={item.id} 
-                name={item.name} 
-                balance={item.balance} 
-              />
-            ))}
+          {}
+          <main className={styles.dashboardGrid}>
+            
+            {}
+            <div className={styles.leftColumn}>
+              
+              {}
+              {}
+              <div className={`${styles.card} ${styles.boxPlaceholder}`}>
+                <h3>Placeholder</h3>
+                <p style={{color: '#888'}}>(Placeholder)</p>
+              </div>
+
+              {}
+              <div className={`${styles.card} ${styles.boxTransactions}`}>
+                <h3>Transaction History</h3>
+                <div className={styles.transactionList}>
+                   <div className={styles.transactionItem}><span>Transaction 1</span> <span>-$50</span></div>
+                   <div className={styles.transactionItem}><span>Transaction 2</span> <span>-$20</span></div>
+                   <div className={styles.transactionItem}><span>Transaction 3</span> <span>-$100</span></div>
+                </div>
+              </div>
+            </div>
+
+            {}
+            <div className={styles.rightColumn}>
+              
+              {}
+              <div className={`${styles.card} ${styles.boxStats}`}>
+                <h3>Stats</h3>
+                <div style={{textAlign: 'center', padding: '20px', backgroundColor: '#eee', borderRadius: '50%', width: '150px', height: '150px', margin: '0 auto', lineHeight: '150px'}}>
+                  Pie Chart
+                </div>
+                
+                <ul style={{marginTop: '30px', paddingLeft: '20px'}}>
+                    {budgets.map(b => (
+                        <li key={b.id} style={{marginBottom: '10px'}}>
+                          <strong>{b.name}</strong>: ${b.balance}
+                        </li>
+                    ))}
+                 </ul>
+              </div>
+            </div>
+
           </main>
         </>
       )}
-
     </div>
   );
 };
