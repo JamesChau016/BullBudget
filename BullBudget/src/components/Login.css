@@ -1,0 +1,83 @@
+
+
+#welcome-message {
+    font-size: 5rem;
+    text-align: center;
+    color: hsl(120, 97%, 13%);
+}
+#login-container{
+    margin: 0 auto;
+    padding: 20px;
+    width: 400px;
+    text-align: center;
+    border: #c0ffc1 2px solid;
+    box-shadow: 2px 2px 12px hsla(0, 1%, 19%, 0.71);
+    border-radius: 5px;
+    background-color: hsla(0, 0%, 100%, 0.8);
+}
+#username{
+    display: block;
+    margin: auto;
+    margin-bottom:0px;
+    padding: 10px;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    border: 2px solid hsl(210, 16%, 82%);
+    width: 300px;
+}
+#username:focus{
+    outline: none;
+    border-color: hsl(120, 97%, 30%);
+    box-shadow: 0 0 5px hsl(120, 97%, 30%);
+}
+#password{
+    display: block;
+    margin: 0px auto;
+    padding: 10px;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    border: 2px solid hsl(210, 16%, 82%);
+    width: 300px;
+}
+#password:focus{
+    outline: none;
+    border-color: hsl(120, 97%, 30%);
+    box-shadow: 0 0 5px hsl(120, 97%, 30%);
+}
+#login{
+    font-size:1.5rem;
+    padding:10px 10px;
+    margin: 0px auto;
+    background-color: hsla(120, 100%, 30%, 0.897);
+    color: rgb(255, 231, 97);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 2px 2px 12px hsla(0, 1%, 19%, 0.71);
+}
+#login:hover {
+    background-color: hsla(120, 100%, 40%, 0.897);
+}
+#login:active {
+    transform: scale(0.9);
+    background-color: hsla(120, 100%, 50%, 0.897);
+}
+#signup{
+    font-size:1.5rem;
+    padding:10px 10px;
+    margin: 0px auto;
+    background-color: hsla(210, 100%, 30%, 0.897);
+    color: rgb(255, 231, 97);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 2px 2px 12px hsla(0, 1%, 19%, 0.71);
+}
+#signup:hover {
+    background-color: hsla(210, 100%, 40%, 0.897);
+}
+#signup:active {
+    transform: scale(0.9);
+    background-color: hsla(210, 100%, 50%, 0.897);
+}
+

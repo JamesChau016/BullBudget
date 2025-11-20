@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect, useState } from 'react'
 import {Toaster} from 'react-hot-toast'
 import './App.css'
@@ -71,6 +72,38 @@ function App() {
       </TestElement> */}
     </>
   )
+=======
+import { useState } from 'react'
+import {Toaster} from 'react-hot-toast'
+import './App.css'
+import Jars from './components/Jars.jsx'
+import LoginPage from './components/Login.jsx'
+
+function App() {
+
+  const [loggedIn, setLoggedIn] = useState (false);
+
+
+  if (!loggedIn) {
+    return (
+      <>
+        <LoginPage loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
+        <Toaster position="top-center" />
+      </>
+      
+    )
+  }
+  else{
+    return (
+      <>
+        <Jars />
+        <Toaster position="top-center" />
+      </>
+    )
+  }
+
+  
+>>>>>>> f248131e226f1820f2194e3ce37ad01389ee2505
 }
 
 export default App
