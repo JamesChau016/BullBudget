@@ -60,6 +60,7 @@ function App() {
         setBudgets = {setBudgets}
       >
       </NavigationWrapper>
+      <Toaster/>
       {/* <TestElement
         budgets = {budgets}
         setBudgets = {setBudgets}
