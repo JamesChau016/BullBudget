@@ -3,13 +3,14 @@ import {ToastBar, Toaster} from 'react-hot-toast'
 import './App.css'
 import Landing from './pages/Landing/Landing'
 import Dashboard from './pages/Dashboard/Dashboard'
-import Jars from './pages/Jars/Jars'
-import { initialBudgets } from './data/budgetData'
+// import Jars from './pages/Jars/Jars'
+import { initialBudgets } from './Data/budgetData'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import BudgetList from './components/BudgetList/BudgetList'
 import { db } from '../firebase/firebase'
 import Login from './pages/Landing/AuthModal/Login/Login'
 import AuthModal from './pages/Landing/AuthModal/AuthModal'
+import BudgetDetail from './pages/BudgetDetail/BudgetDetail'
 
 const NavigationWrapper = ({ budgets, setBudgets }) => {
   const navigate = useNavigate();
@@ -34,6 +35,15 @@ const NavigationWrapper = ({ budgets, setBudgets }) => {
             budgets = {budgets}
             setBudgets = {setBudgets}
           ></Dashboard>
+        }
+      ></Route>
+      <Route
+        path="/budget/:budgetName"
+        element={
+          <BudgetDetail
+            budgets={budgets}
+            setBudgets={setBudgets}
+          ></BudgetDetail>
         }
       ></Route>
     </Routes>
