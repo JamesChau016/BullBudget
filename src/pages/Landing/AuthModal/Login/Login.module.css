@@ -114,6 +114,37 @@
     box-shadow: 0 2px 8px rgba(13, 142, 126, 0.08);
 }
 
+.redirect-text {
+    margin: .75rem 0 0 0;
+    font-size: 0.95rem;
+    color: #666;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.redirect-link {
+    margin-left: 0.5rem;
+    color: #0d8e7e;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.redirect-link:hover {
+    color: #0a6e5a;
+    text-decoration: underline;
+}
+
+.redirect-link:active {
+    color: #085a4a;
+}
+
+
+
+
+
+
 /* Responsive Design */
 @media (max-width: 480px) {
   .login-page {
