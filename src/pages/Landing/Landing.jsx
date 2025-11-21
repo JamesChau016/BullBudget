@@ -27,7 +27,6 @@ const Landing = () => {
     const navigate = useNavigate();
 
     const handleLoginClicked = () => {
-        console.log('login')
         setAuthModalState('login');
     }
 
@@ -38,16 +37,20 @@ const Landing = () => {
             >
                 <Header>
                     <NavigationButton
-                        className = {`${styles['navigation-button login-button']}`}
+                        className = {`${styles['navigation-button']}`}
                         onClick = {handleLoginClicked}
                     >
                         Login
+                    </NavigationButton>
+                    <NavigationButton
+                    >
                     </NavigationButton>
                 </Header>
                 <LandingContent>
                 </LandingContent>
                 <AuthModal
-                    display = {AuthModalState}
+                    displayMode = {AuthModalState}
+                    setDisplayMode = {setAuthModalState}
                 >
                 </AuthModal>
             </div>
