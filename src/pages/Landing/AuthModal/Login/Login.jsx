@@ -39,7 +39,7 @@ function Login({ setLoggedIn }) {
                         className={styles['input-field']}
                         placeholder="Password" 
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}  
                         aria-label="Password"
                     />
                 </div>
