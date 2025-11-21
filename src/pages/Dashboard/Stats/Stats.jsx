@@ -1,3 +1,4 @@
+import React from 'react'
 import styles from './Stats.module.css'
 import dashboardStyles from '../Dashboard.module.css'
 

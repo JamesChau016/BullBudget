@@ -1,3 +1,4 @@
+import React from 'react'
 import styles from './Feature.module.css'
 import FeatureCard from './FeatureCard/FeatureCard'
 
