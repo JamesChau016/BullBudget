@@ -8,7 +8,7 @@ import { initialBudgets } from './Data/budgetData'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import BudgetList from './components/BudgetList/BudgetList'
 import { db } from '../firebase/firebase'
-import Login from './pages/Login/Login'
+import Login from './pages/Landing/AuthModal/Login/Login'
 import AuthModal from './pages/Landing/AuthModal/AuthModal'
 
 const NavigationWrapper = ({ budgets, setBudgets }) => {
@@ -55,16 +55,16 @@ function App() {
 
   return (
     <>
-      {/* <NavigationWrapper
+      <NavigationWrapper
         budgets = {budgets}
         setBudgets = {setBudgets}
       >
-      </NavigationWrapper> */}
-      <TestElement
+      </NavigationWrapper>
+      {/* <TestElement
         budgets = {budgets}
         setBudgets = {setBudgets}
       >
-      </TestElement>
+      </TestElement> */}
     </>
   )
 }
