@@ -1,7 +1,7 @@
 // modular SDK (v9+)
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -17,6 +17,14 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    console.log('User is signed in:', user);
+  } else {
+    console.log('No user is signed in.');
+  }
+});
 // export the services you need:
 export const db = getFirestore(app);         // Cloud Firestore
 export const rtdb = getDatabase(app);       // Realtime Database (optional)
