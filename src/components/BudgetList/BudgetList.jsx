@@ -1,15 +1,24 @@
 import React, { useState } from 'react'
 import styles from './BudgetList.module.css'
+import { useNavigate } from 'react-router-dom'
 
 // BudgetBox takes budget as an object
 
 
 const BudgetBox = ({ budget }) => {
+    const navigate = useNavigate();
+    const handleClick = () => {
+        navigate(`/budget/${budget.name}`);
+    }
+
     return (
         <div
             className = {styles['budget-box']}
             role="listitem"
-            aria-label={`Budget ${budget.name}`}>
+            aria-label={`Budget ${budget.name}`}
+            onClick = {handleClick}
+            style={{ cursor: 'pointer' }}
+            >
             <h3 className = {styles['budget-name']}>{budget.name}</h3>
             <div className = {styles['budget-balance']}>${budget.balance.toLocaleString()}</div>
         </div>

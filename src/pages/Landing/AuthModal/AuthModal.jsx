@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styles from './AuthModal.module.css' 
 import Login from './Login/Login'
-import { useState } from 'react'
 
 const AuthModal = ({ displayMode, setDisplayMode }) => {
 
