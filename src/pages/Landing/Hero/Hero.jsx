@@ -1,3 +1,4 @@
+import React from 'react'
 import styles from './Hero.module.css'
 import NavigationButton from '../../../components/NavigationButton/NavigationButton'
 import { useNavigate } from 'react-router-dom'
