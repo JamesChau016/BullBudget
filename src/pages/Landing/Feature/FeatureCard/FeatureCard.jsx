@@ -1,3 +1,4 @@
+import React from 'react'
 import styles from './FeatureCard.module.css'
 
 const FeatureCard = ({ name, description, image, className, style }) => {

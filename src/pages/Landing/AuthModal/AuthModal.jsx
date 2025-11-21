@@ -1,7 +1,6 @@
-import { ToastBar, Toaster } from 'react-hot-toast'
+import React, { useState } from 'react'
 import styles from './AuthModal.module.css' 
 import Login from './Login/Login'
-import { useState } from 'react'
 import Signup from './Signup/Signup'
 
 const AuthModal = ({ displayMode, setDisplayMode }) => {
