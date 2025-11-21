@@ -17,7 +17,7 @@ const AuthModal = ({ displayMode, setDisplayMode }) => {
     } 
 
     const handleModalClick = () => {
-        setDisplayMode('none');
+        // setDisplayMode('none');
     }
 
     const displayNoneStyles = {
