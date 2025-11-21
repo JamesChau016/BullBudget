@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import styles from './Login.module.css'
+import { useAuthModalState } from '../../AuthModalStateContext';
 
-function Login({ setLoggedIn, setDisplayMode }) {
+function Login({  }) {
+    const { AuthModalState, setAuthModalState } = useAuthModalState();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -16,8 +18,8 @@ function Login({ setLoggedIn, setDisplayMode }) {
         toast.success('Logged in successfully!');   
     }
 
-    const handleRedirect = (target) => {
-        setDisplayMode(target)
+    const handleChangeAuthModalState = (target) => {
+        setAuthModalState(target)
     }
     
     return (
@@ -56,7 +58,7 @@ function Login({ setLoggedIn, setDisplayMode }) {
                     Not a Bull yet?
                     <a
                         className = {styles['redirect-link']}
-                        onClick = {() => handleRedirect('signup')}
+                        onClick = {() => handleChangeAuthModalState('signup')}
                     >
                         Sign Up
                     </a>

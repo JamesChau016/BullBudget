@@ -1,7 +1,9 @@
+import { useAuthModalState } from '../../AuthModalStateContext';
 import styles from './Signup.module.css'
 import { useState } from 'react';
 
-function Signup({ setDisplayMode }) {
+function Signup({  }) {
+    const { AuthModalState, setAuthModalState } = useAuthModalState();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -15,8 +17,8 @@ function Signup({ setDisplayMode }) {
         toast.success('Logged in successfully!');   
     }
 
-    const handleRedirect = (target) => {
-        setDisplayMode(target)
+    const handleChangeAuthModalState = (target) => {
+        setAuthModalState(target)
     }
     
     return (
@@ -55,7 +57,7 @@ function Signup({ setDisplayMode }) {
                     Already a Bull?
                     <a
                         className = {styles['redirect-link']}
-                        onClick = {() => handleRedirect('login')}
+                        onClick = {() => handleChangeAuthModalState('login')}
                     >
                         Log In
                     </a>
