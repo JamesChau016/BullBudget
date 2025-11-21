@@ -2,26 +2,52 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import styles from './Login.module.css'
 import { useAuthModalState } from '../../AuthModalStateContext';
+import { auth } from "../../../../firebase/firebase.js";
+import { onAuthStateChanged, 
+    signInWithEmailAndPassword, 
+    createUserWithEmailAndPassword, 
+    signOut } from "firebase/auth"; 
 
-function Login({  }) {
+
+
+function Login({ setLoggedIn }) {
     const { AuthModalState, setAuthModalState } = useAuthModalState();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = (e) => {
+    const showLoginError = (error) => {
+        if (error.code === 'auth/user-not-found') {
+            toast.error('No user found with this email.');
+        } else if (error.code === 'auth/wrong-password') {
+            toast.error('Incorrect password. Please try again.');
+        } else {
+            toast.error('Login failed: ' + error.message);
+        }
+    }
+
+     const handleLogin = async(e) => {
         e.preventDefault();
         if (!email.trim() || !password.trim()) {
             toast.error('Please fill in all fields');
             return;
         }
-        setLoggedIn(true);
-        toast.success('Logged in successfully!');   
+        try{
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            console.log(userCredential.user);   
+        }
+        catch(error){
+            console.log(error);
+            showLoginError(error);
+            return;
+        }
+        
     }
 
     const handleChangeAuthModalState = (target) => {
         setAuthModalState(target)
     }
-    
+
+
     return (
         <div 
             className={styles['container']}

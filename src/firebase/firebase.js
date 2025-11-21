@@ -1,7 +1,13 @@
 // modular SDK (v9+)
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getAuth, 
+        onAuthStateChanged, 
+        signInWithEmailAndPassword, 
+        createUserWithEmailAndPassword, 
+        connectAuthEmulator, 
+        signOut } 
+        from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -15,11 +21,14 @@ const firebaseConfig = {
     measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-console.log(firebaseConfig)
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-// export the services you need:
-export const db = getFirestore(app);         // Cloud Firestore
-// export const rtdb = getDatabase(app);       // Realtime Database (optional)
-export const auth = getAuth(app);           // Authentication
+
+export const db = getFirestore(app);         // Cloud Firestore;    
+export const auth = getAuth(app);     // Authentication
+
+
+if (location.hostname === "localhost") {
+    connectAuthEmulator(auth, "http://127.0.0.1:9099");
+}
