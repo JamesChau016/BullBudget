@@ -1,29 +1,51 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Login.css'
 import toast from 'react-hot-toast';
 
 function LoginPage({setLoggedIn}){
-    const username= document.getElementById('username');
-    const password= document.getElementById('password');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    const login = () => {
+    const handleLogin = (e) => {
+        e.preventDefault();
+        if (!email.trim() || !password.trim()) {
+            toast.error('Please fill in all fields');
+            return;
+        }
         setLoggedIn(true);
         toast.success('Logged in successfully!');   
     }
     
-
     return (
-        <>
-            <h1 id='welcome-message'>Welcome to BullBudget</h1>
-            <div id='login-container'>
-                
-                <input id ='username' type="text" placeholder="Username" /><br/>
-                <input id ='password' type="password" placeholder="Password" /><br/>
-                <button id='login' onClick = {login}>Login</button><br/>
-                <button id='signup'>Sign up</button>
-            </div>
-            
-        </>
+        <div className='container'>
+            <h1 className='welcome-message'>Welcome to BullBudget</h1>
+            <form className='login-container' onSubmit={handleLogin}>
+                <div className='form-group'>
+                    <input 
+                        type="text"
+                        className='input-field'
+                        placeholder="Email" 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        aria-label="Email"
+                    />
+                </div>
+                <div className='form-group'>
+                    <input 
+                        type="password" 
+                        className='input-field'
+                        placeholder="Password" 
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        aria-label="Password"
+                    />
+                </div>
+                <div className='button-group'>
+                    <button type='submit' className='btn btn-primary'>Login</button>
+                    <button type='button' className='btn btn-secondary'>Sign up</button>
+                </div>
+            </form>
+        </div>
     )
 }
 
