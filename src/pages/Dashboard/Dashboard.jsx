@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styles from './Dashboard.module.css';
 import Welcome from './Welcome/Welcome';
 import TransactionHistory from './TransactionHistory/TransactionHistory';

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import styles from './Login.module.css'
+import { useAuthModalState } from '../../AuthModalStateContext';
 import { auth } from "../../../../firebase/firebase.js";
 import { onAuthStateChanged, 
     signInWithEmailAndPassword, 
@@ -8,7 +9,9 @@ import { onAuthStateChanged,
     signOut } from "firebase/auth"; 
 
 
+
 function Login({ setLoggedIn }) {
+    const { AuthModalState, setAuthModalState } = useAuthModalState();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -22,7 +25,7 @@ function Login({ setLoggedIn }) {
         }
     }
 
-    const handleLogin = async(e) => {
+     const handleLogin = async(e) => {
         e.preventDefault();
         if (!email.trim() || !password.trim()) {
             toast.error('Please fill in all fields');
@@ -40,13 +43,11 @@ function Login({ setLoggedIn }) {
         
     }
 
-    const handleSignUp = async(e) => {
-        e.preventDefault();
-        if (!email.trim() || !password.trim()) {
-            toast.error('Please fill in all fields');
-            return;
-        }
+    const handleChangeAuthModalState = (target) => {
+        setAuthModalState(target)
     }
+
+
     return (
         <div 
             className={styles['container']}
@@ -70,14 +71,24 @@ function Login({ setLoggedIn }) {
                         className={styles['input-field']}
                         placeholder="Password" 
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}  
                         aria-label="Password"
                     />
                 </div>
                 <div className={styles['button-group']}>
-                    <button type='submit' className={`${styles.btn} ${styles['btn-primary']}`}>Login</button>
-                    <button type='button' className={`${styles['btn-secondary']} ${styles.btn}`}>Sign up</button>
+                    <button type='submit' className={`${styles.btn} ${styles['btn-primary']}`}>Log In</button>
                 </div>
+                <p
+                    className = {styles['redirect-text']}
+                >
+                    Not a Bull yet?
+                    <a
+                        className = {styles['redirect-link']}
+                        onClick = {() => handleChangeAuthModalState('signup')}
+                    >
+                        Sign Up
+                    </a>
+                </p>
             </form>
         </div>
     )

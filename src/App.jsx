@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import {Toaster} from 'react-hot-toast'
+import { useEffect, useState } from 'react'
+import {ToastBar, Toaster} from 'react-hot-toast'
 import './App.css'
 import Landing from './pages/Landing/Landing'
 import Dashboard from './pages/Dashboard/Dashboard'
-import Jars from './pages/Jars/Jars'
+// import Jars from './pages/Jars/Jars'
 import { initialBudgets } from './Data/budgetData'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import BudgetList from './components/BudgetList/BudgetList'
+import { db } from './firebase/firebase.js'
 import Login from './pages/Landing/AuthModal/Login/Login'
 import AuthModal from './pages/Landing/AuthModal/AuthModal'
-import {db} from './firebase/firebase.js';
+import BudgetDetail from './pages/BudgetDetail/BudgetDetail'
 
 const NavigationWrapper = ({ budgets, setBudgets }) => {
   const navigate = useNavigate();
@@ -36,6 +37,15 @@ const NavigationWrapper = ({ budgets, setBudgets }) => {
           ></Dashboard>
         }
       ></Route>
+      <Route
+        path="/budget/:budgetName"
+        element={
+          <BudgetDetail
+            budgets={budgets}
+            setBudgets={setBudgets}
+          ></BudgetDetail>
+        }
+      ></Route>
     </Routes>
   )
 }
@@ -56,11 +66,10 @@ function App() {
   return (
     <>
       <NavigationWrapper
-        budgets = {budgets}
-        setBudgets = {setBudgets}
-      >
+          budgets = {budgets}
+          setBudgets = {setBudgets}
+        >
       </NavigationWrapper>
-      <Toaster/>
       {/* <TestElement
         budgets = {budgets}
         setBudgets = {setBudgets}

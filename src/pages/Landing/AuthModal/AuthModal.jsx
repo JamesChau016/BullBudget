@@ -1,26 +1,37 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import styles from './AuthModal.module.css' 
 import Login from './Login/Login'
+import Signup from './Signup/Signup'
+import { useAuthModalState } from '../AuthModalStateContext'
 
-const AuthModal = ({ displayMode, setDisplayMode }) => {
+const AuthModal = () => {
+
+    const { AuthModalState, setAuthModalState } = useAuthModalState();
 
     const renderContent = () => {
-        switch(displayMode) {
+        switch(AuthModalState) {
             case 'login':
                 return (
                     <>
-                        <Login> 
-                        </Login>
+                        <Login
+                        ></Login>
+                    </>
+                )
+            case 'signup':
+                return (
+                    <>
+                        <Signup
+                        ></Signup>
                     </>
                 )
         }
     } 
 
     const handleModalClick = () => {
-        setDisplayMode('none');
+        setAuthModalState('none');
     }
 
-    const displayNoneStyles = {
+    const AuthModalStateNoneStyles = {
         display: 'none',
     }
 
@@ -30,7 +41,7 @@ const AuthModal = ({ displayMode, setDisplayMode }) => {
             <div
                 className = {styles.container}
                 onClick = {handleModalClick}
-                style = {displayMode === 'none' ? displayNoneStyles : {}}
+                style = {AuthModalState === 'none' ? AuthModalStateNoneStyles : {}}
             >
                 {renderContent()}
             </div>
