@@ -43,7 +43,9 @@ const Landing = () => {
                         Login
                     </NavigationButton>
                     <NavigationButton
-                    >
+                        className = {`${styles['navigation-button']}`}
+                        >
+                        Sign Up
                     </NavigationButton>
                 </Header>
                 <LandingContent>
