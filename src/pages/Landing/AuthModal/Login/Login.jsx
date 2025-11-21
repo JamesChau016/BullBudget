@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import styles from './Login.module.css'
 
-function Login({ setLoggedIn }) {
+function Login({ setLoggedIn, setDisplayMode }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -14,6 +14,10 @@ function Login({ setLoggedIn }) {
         }
         setLoggedIn(true);
         toast.success('Logged in successfully!');   
+    }
+
+    const handleRedirect = (target) => {
+        setDisplayMode(target)
     }
     
     return (
@@ -44,9 +48,19 @@ function Login({ setLoggedIn }) {
                     />
                 </div>
                 <div className={styles['button-group']}>
-                    <button type='submit' className={`${styles.btn} ${styles['btn-primary']}`}>Login</button>
-                    <button type='button' className={`${styles['btn-secondary']} ${styles.btn}`}>Sign up</button>
+                    <button type='submit' className={`${styles.btn} ${styles['btn-primary']}`}>Log In</button>
                 </div>
+                <p
+                    className = {styles['redirect-text']}
+                >
+                    Not a Bull yet?
+                    <a
+                        className = {styles['redirect-link']}
+                        onClick = {() => handleRedirect('signup')}
+                    >
+                        Sign Up
+                    </a>
+                </p>
             </form>
         </div>
     )

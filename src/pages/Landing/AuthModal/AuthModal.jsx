@@ -1,6 +1,8 @@
+import { ToastBar, Toaster } from 'react-hot-toast'
 import styles from './AuthModal.module.css' 
 import Login from './Login/Login'
 import { useState } from 'react'
+import Signup from './Signup/Signup'
 
 const AuthModal = ({ displayMode, setDisplayMode }) => {
 
@@ -9,8 +11,19 @@ const AuthModal = ({ displayMode, setDisplayMode }) => {
             case 'login':
                 return (
                     <>
-                        <Login> 
+                        <Login
+                            setDisplayMode = {setDisplayMode}
+                        > 
                         </Login>
+                    </>
+                )
+            case 'signup':
+                return (
+                    <>
+                        <Signup
+                            setDisplayMode = {setDisplayMode}
+                        >
+                        </Signup>
                     </>
                 )
         }

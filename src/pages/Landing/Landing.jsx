@@ -30,6 +30,10 @@ const Landing = () => {
         setAuthModalState('login');
     }
 
+    const handleSignupClicked = () => {
+        setAuthModalState('signup');
+    }
+
     return (
         <>
             <div
@@ -40,10 +44,13 @@ const Landing = () => {
                         className = {`${styles['navigation-button']}`}
                         onClick = {handleLoginClicked}
                     >
-                        Login
+                        Log In
                     </NavigationButton>
                     <NavigationButton
+                        className = {`${styles['navigation-button']}`}
+                        onClick = {handleSignupClicked}
                     >
+                        Sign Up
                     </NavigationButton>
                 </Header>
                 <LandingContent>

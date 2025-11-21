@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import {Toaster} from 'react-hot-toast'
+import {ToastBar, Toaster} from 'react-hot-toast'
 import './App.css'
 import Landing from './pages/Landing/Landing'
 import Dashboard from './pages/Dashboard/Dashboard'
@@ -56,9 +56,9 @@ function App() {
   return (
     <>
       <NavigationWrapper
-        budgets = {budgets}
-        setBudgets = {setBudgets}
-      >
+          budgets = {budgets}
+          setBudgets = {setBudgets}
+        >
       </NavigationWrapper>
       {/* <TestElement
         budgets = {budgets}
