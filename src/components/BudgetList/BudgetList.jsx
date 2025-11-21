@@ -1,5 +1,5 @@
+import React, { useState } from 'react'
 import styles from './BudgetList.module.css'
-import { useState } from 'react'
 
 // BudgetBox takes budget as an object
 
