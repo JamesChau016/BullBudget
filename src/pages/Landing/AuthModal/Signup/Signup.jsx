@@ -1,4 +1,5 @@
 import { useAuthModalState } from '../../AuthModalStateContext';
+import toast from 'react-hot-toast'
 import styles from './Signup.module.css'
 import { useState } from 'react';
 
