@@ -29,14 +29,15 @@ function Login({ setLoggedIn }) {
             return;
         }
         try{
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);   
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            console.log(userCredential.user);   
         }
         catch(error){
             console.log(error);
             showLoginError(error);
             return;
         }
-        console.log(userCredential.user);
+        
     }
 
     const handleSignUp = async(e) => {
