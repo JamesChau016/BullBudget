@@ -17,7 +17,10 @@ function Login({ setLoggedIn }) {
     }
     
     return (
-        <div className={styles['container']}>
+        <div 
+            className={styles['container']}
+            onClick = {(e) => e.stopPropagation()}
+        >
             <h1 className={styles['welcome-message']}>Welcome to BullBudget</h1>
             <form className={styles['login-container']} onSubmit={handleLogin}>
                 <div className={styles['form-group']}>
@@ -41,8 +44,8 @@ function Login({ setLoggedIn }) {
                     />
                 </div>
                 <div className={styles['button-group']}>
-                    <button type='submit' className={styles['btn-primary']}>Login</button>
-                    <button type='button' className={styles['btn-secondary']}>Sign up</button>
+                    <button type='submit' className={`${styles.btn} ${styles['btn-primary']}`}>Login</button>
+                    <button type='button' className={`${styles['btn-secondary']} ${styles.btn}`}>Sign up</button>
                 </div>
             </form>
         </div>

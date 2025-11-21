@@ -1,9 +1,14 @@
 .container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: 200001;
-    padding: 4rem 20rem;
+    padding: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
 }

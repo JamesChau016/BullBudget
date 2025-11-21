@@ -5,6 +5,7 @@ import NavigationButton from '../../components/NavigationButton/NavigationButton
 import Hero from './Hero/Hero.jsx';
 import Feature from './Feature/Feature.jsx';
 import { useNavigate } from 'react-router-dom';
+import AuthModal from './AuthModal/AuthModal.jsx';
 
 const LandingContent = () => {
     return (
@@ -20,10 +21,13 @@ const LandingContent = () => {
 }
 
 const Landing = () => {
+
+    const [AuthModalState, setAuthModalState] = useState('none');
+
     const navigate = useNavigate();
 
     const handleLoginClicked = () => {
-        navigate('/dashboard');
+        setAuthModalState('login');
     }
 
     return (
@@ -33,14 +37,22 @@ const Landing = () => {
             >
                 <Header>
                     <NavigationButton
-                        className = {`${styles['navigation-button login-button']}`}
+                        className = {`${styles['navigation-button']}`}
                         onClick = {handleLoginClicked}
                     >
                         Login
                     </NavigationButton>
+                    <NavigationButton
+                    >
+                    </NavigationButton>
                 </Header>
                 <LandingContent>
                 </LandingContent>
+                <AuthModal
+                    displayMode = {AuthModalState}
+                    setDisplayMode = {setAuthModalState}
+                >
+                </AuthModal>
             </div>
         </>
     )
