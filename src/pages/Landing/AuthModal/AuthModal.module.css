@@ -1,0 +1,9 @@
+.container {
+    z-index: 200001;
+    padding: 4rem 20rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    
+}
