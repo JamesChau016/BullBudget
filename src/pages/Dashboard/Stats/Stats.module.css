@@ -1,13 +1,14 @@
 .stats {
   min-width: 260px;
+  text-align: center;
 }
 
 .stats-heading {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
-  font-weight: 700;
+  margin: 0 0 1.5rem 0;
+  font-size: 2rem;
+  font-weight: 900;
   line-height: 1;
-  text-align: left;
+  text-align: center;
   color: #0d8e7e;
 }
 
@@ -16,16 +17,18 @@
 }
 
 .stat-item {
-  margin: 0 0 0.75rem 0;
-  font-size: 1rem;
+  margin: 0 0 1.25rem 0;
+  font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.5;
   color: #444;
+  text-align: center;
 }
 
 .stat-value {
   color: #0d8e7e;
   font-weight: 800;
+  font-size: 1.5rem;
   display: inline-block;
 }
 

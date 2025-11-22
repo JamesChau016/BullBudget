@@ -16,7 +16,7 @@ const Stats = ({ budgets, setBudgets }) => {
         <h2
           className = {styles['stats-heading']}
         >
-          Stats
+          OVERALL STATS
         </h2>
         <div
           className = {styles['stats-content']}
