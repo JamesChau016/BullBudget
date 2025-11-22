@@ -88,6 +88,9 @@ const BudgetDetail = ({ budgets, setBudgets, transactions, setTransactions }) =>
     })
 
     setBudgets(updatedBudgets)
+    if (transactionType === 'withdraw') {
+      setTransactions([newTransaction, ...transactions])
+    }
 
     // reset form
     setAmount('')
