@@ -4,6 +4,7 @@ import styles from './BudgetDetail.module.css'
 import toast from 'react-hot-toast'
 import Header from '../../components/Header/Header'
 import NavigationButton from '../../components/NavigationButton/NavigationButton'
+import ConfirmModal from '../../components/ConfirmModal/ConfirmModal'
 
 const BudgetDetail = ({ budgets, setBudgets }) => {
   const { budgetName } = useParams()
@@ -15,9 +16,11 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
   const [amount, setAmount] = useState('')
   const [transactionType, setTransactionType] = useState('add') 
   const [description, setDescription] = useState('')
+  const [date, setDate] = useState(() => new Date().toISOString().slice(0,10))
+  const [repeat, setRepeat] = useState('none')
   
-  // State cho transaction history 
-  const [transactions, setTransactions] = useState([])
+  // Transaction history is stored on the budget object so it's shared globally
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   
   if (!budget) {
     navigate('/dashboard')
@@ -35,12 +38,15 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
 
   // Remove jar của Huy
   const handleRemoveJar = () => {
-    if (window.confirm(`Are you sure you want to delete "${budgetName}" budget?`)) {
-      const updatedBudgets = budgets.filter(b => b.name !== budgetName)
-      setBudgets(updatedBudgets)
-      toast.success(`Budget "${budgetName}" removed successfully`)
-      navigate('/dashboard')
-    }
+    setShowDeleteConfirm(true)
+  }
+
+  const handleConfirmDelete = () => {
+    const updatedBudgets = budgets.filter(b => b.name !== budgetName)
+    setBudgets(updatedBudgets)
+    toast.success(`Budget "${budgetName}" removed successfully`)
+    setShowDeleteConfirm(false)
+    navigate('/dashboard')
   }
   
   const handleTransaction = (e) => {
@@ -53,39 +59,40 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
       return
     }
     
-    if (transactionType === 'withdraw' && amountNum > budget.balance) {
+    if (transactionType === 'withdraw' && amountNum > budget.currentBalance) {
       toast.error('Insufficient balance')
       return
     }
-    
-    // Update balance
-    const updatedBudgets = budgets.map(b => {
-      if (b.name === budgetName) {
-        return {
-          ...b,
-          balance: transactionType === 'add' 
-            ? b.balance + amountNum 
-            : b.balance - amountNum
-        }
-      }
-      return b
-    })
-    
-    setBudgets(updatedBudgets)
-    
+
     // Add to transaction history
     const newTransaction = {
       id: Date.now(),
       type: transactionType,
       amount: amountNum,
       description: description || (transactionType === 'add' ? 'Deposit' : 'Withdrawal'),
-      date: new Date().toLocaleString()
+      date: date ? new Date(date).toISOString() : new Date().toISOString(),
+      repeat: repeat || 'none'
     }
-    
-    setTransactions([newTransaction, ...transactions])
-    
+
+    const updatedBudgets = budgets.map(b => {
+      if (b.name === budgetName) {
+        const existingTransactions = Array.isArray(b.transactions) ? b.transactions : []
+        return {
+          ...b,
+          currentBalance: transactionType === 'add' ? b.currentBalance + amountNum : b.currentBalance - amountNum,
+          transactions: [newTransaction, ...existingTransactions]
+        }
+      }
+      return b
+    })
+
+    setBudgets(updatedBudgets)
+
+    // reset form
     setAmount('')
     setDescription('')
+    setDate(new Date().toISOString().slice(0,10))
+    setRepeat('none')
     
     toast.success(
       transactionType === 'add' 
@@ -107,7 +114,7 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
           <h1 className={styles['budget-name']}>{budget.name}</h1>
           <div className={styles['budget-balance']}>
             <span className={styles['balance-label']}>Current Balance</span>
-            <span className={styles['balance-amount']}>${budget.balance.toLocaleString()}</span>
+            <span className={styles['balance-amount']}>${budget.currentBalance.toLocaleString()}</span>
           </div>
         </div>
         
@@ -170,6 +177,37 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
+
+              <div className={styles['form-group']}>
+                <label className={styles['form-label']} htmlFor="date">
+                  Date
+                </label>
+                <input
+                  id="date"
+                  type="date"
+                  className={styles['input-field']}
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                />
+              </div>
+
+              <div className={styles['form-group']}>
+                <label className={styles['form-label']} htmlFor="repeat">
+                  Repeat
+                </label>
+                <select
+                  id="repeat"
+                  className={styles['input-field']}
+                  value={repeat}
+                  onChange={(e) => setRepeat(e.target.value)}
+                >
+                  <option value="none">None</option>
+                  <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="yearly">Yearly</option>
+                </select>
+              </div>
               
               <button
                 type="submit"
@@ -186,14 +224,14 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
           <div className={styles['history-section']}>
             <h2 className={styles['section-title']}>Transaction History</h2>
             
-            {transactions.length === 0 ? (
+            {(!(budget.transactions && budget.transactions.length)) ? (
               <div className={styles['empty-state']}>
                 <p>No transactions yet</p>
                 <p className={styles['empty-hint']}>Add your first transaction to get started</p>
               </div>
             ) : (
               <div className={styles['transaction-list']}>
-                {transactions.map((transaction) => (
+                {(budget.transactions || []).map((transaction) => (
                   <div
                     key={transaction.id}
                     className={`${styles['transaction-item']} ${
@@ -207,8 +245,13 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
                         {transaction.description}
                       </div>
                       <div className={styles['transaction-date']}>
-                        {transaction.date}
+                        {transaction.date ? new Date(transaction.date).toLocaleDateString() : ''}
                       </div>
+                      {transaction.repeat && transaction.repeat !== 'none' && (
+                        <div className={styles['transaction-repeat']}>
+                          {`Repeats: ${transaction.repeat.charAt(0).toUpperCase() + transaction.repeat.slice(1)}`}
+                        </div>
+                      )}
                     </div>
                     <div className={styles['transaction-amount']}>
                       {transaction.type === 'add' ? '+' : '-'}${transaction.amount.toFixed(2)}
@@ -235,6 +278,16 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
         </button>
       </div>
 
+      <ConfirmModal
+        isOpen={showDeleteConfirm}
+        title="Delete Budget"
+        message={`Are you sure you want to delete "${budgetName}" budget? This action cannot be undone.`}
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setShowDeleteConfirm(false)}
+        confirmText="Delete"
+        cancelText="Cancel"
+        isDestructive={true}
+      />
       </div>
     </>
   )

@@ -2,6 +2,7 @@ import React,{ useState } from 'react'
 import toast from 'react-hot-toast'
 import styles from './Jars.module.css'
 import { useNavigate } from 'react-router-dom'
+import { setCurrentScreen } from 'firebase/analytics'
 
 //từ đây đổi tên thành component để chứa các Budgets
 
@@ -19,7 +20,7 @@ function Jars({ budgets, setBudgets }) {
       setBudgets([...budgets, { 
         id: Date.now(), 
         name: jarName, 
-        balance: 0 
+        currentBalance: 0 
       }]);
       toast.success(`Jar "${jarName}" added`);
       document.getElementById('add-jars-input').value = '';
@@ -50,8 +51,8 @@ function Jars({ budgets, setBudgets }) {
           key={budget.id}
           className={styles.jar}
         >
-          <h2 id={styles['jar-label']}>{budget.name}</h2>
-          <p className={styles['jar-balance']}>${budget.balance.toLocaleString()}</p>
+          <h2 className={styles['jar-label']}>{budget.name}</h2>
+          <p className={styles['jar-balance']}>${budget.currentBalance.toLocaleString()}</p>
         </div>
       ))}
     </div>
