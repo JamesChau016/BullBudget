@@ -9,11 +9,6 @@ import { useNavigate } from 'react-router-dom'
 //sửa một vài tham số để đồng bộ với App.jsx với Dashboard.jsx
 function Jars({ budgets, setBudgets }) {
   const navigate = useNavigate()
-  const [expandedJar, setExpandedJar] = useState(null);
-  const [jarColors, setJarColors] = useState(
-    budgets.map(() => 'hsla(0, 0%, 93%, 1.00)'));
-  const jarNum= budgets.length;
-  // xóa dòng const listJars = budgets;
 
   // Sửa JarName thành budgets
   function addJar() {
@@ -31,29 +26,6 @@ function Jars({ budgets, setBudgets }) {
     } else {
       toast.error('Please fill in a unique Jar name!');
     }
-  }
-
-// Update để dùng budgets array
-  function removeJar() {
-    if (expandedJar !== null && budgets.length > 1) {
-      const jarN = budgets[expandedJar].name;
-      setBudgets(budgets.filter((_, index) => index !== expandedJar));
-      toast.success(`Jar "${jarN}" removed`);
-      setExpandedJar(null);
-    } else {
-      toast.error('You must have at least one jar!');
-    }
-  }
-
-  function expandJar(index){
-    setExpandedJar(expandedJar === index ? null : index);
-  }
-
-  function changeJarColor(index){
-    const newColor= document.getElementById('jar-color-picker').value;
-    const updatedColors = [...jarColors];
-    updatedColors[index] = newColor;
-    setJarColors(updatedColors);
   }
 
  return (
@@ -77,7 +49,6 @@ function Jars({ budgets, setBudgets }) {
           onClick={() => navigate(`/budget/${budget.name}`)}  
           key={budget.id}
           className={styles.jar}
-          style={{backgroundColor: jarColors[index]}}
         >
           <h2 id={styles['jar-label']}>{budget.name}</h2>
           <p className={styles['jar-balance']}>${budget.balance.toLocaleString()}</p>
