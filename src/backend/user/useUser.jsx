@@ -3,7 +3,7 @@ import {
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
     onAuthStateChanged,
-    signOut as firebaseSignOut
+    signOut as firebaseSignOut  // Import signOut with alias
 } from "firebase/auth";
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from "../../firebase/firebase.js";
@@ -20,12 +20,17 @@ export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true); // Track initial auth state loading
+    const [signupComplete, setSignupComplete] = useState(null); // null = not signing up, false = signing up, true = complete
 
     // Listen to auth state changes
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
             setLoading(false);
+            // Reset signupComplete when user logs out
+            if (!currentUser) {
+                setSignupComplete(null);
+            }
         });
 
         return () => unsubscribe();
@@ -39,7 +44,7 @@ export const UserProvider = ({ children }) => {
         return null;
     };
 
-    // Derived userId for easier access
+    // Derived userId for easier access and stable reference
     const userId = user?.uid || null;
 
     const showAuthError = (error) => {
@@ -66,7 +71,7 @@ export const UserProvider = ({ children }) => {
                 const budgetId = generateId();
                 const budgetData = {
                     id: budgetId,
-                    ownerId: userId,
+                    ownerId: userId,  // Use parameter instead of user.uid
                     type: budget.type,
                     name: budget.name,
                     currentBalance: budget.currentBalance,
@@ -95,14 +100,14 @@ export const UserProvider = ({ children }) => {
         try {
             await setDoc(doc(db, "users", newUser.uid), {
                 id: newUser.uid,
-                email: newUser.email,
+                email: newUser.email,  // Use parameter instead of user.email
                 type: 'user',
                 createdAt: new Date(),
             });
             
             console.log("User document created successfully");
             
-            const budgetsCreated = await createInitialBudgets(newUser.uid);
+            const budgetsCreated = await createInitialBudgets(newUser.uid);  // Pass userId
             if (!budgetsCreated) {
                 console.warn("User created but budgets failed");
             }
@@ -122,6 +127,7 @@ export const UserProvider = ({ children }) => {
         }
 
         setError(null);
+        setSignupComplete(null); // Not a signup, so set to null
 
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -147,21 +153,29 @@ export const UserProvider = ({ children }) => {
         }
 
         setError(null);
+        setSignupComplete(false); // Mark that signup is starting
 
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const newUser = userCredential.user;
 
+            // Create budgets BEFORE marking signup as complete
             const newUserDoc = await createUserDocument(newUser);
             if (!newUserDoc) {
+                setSignupComplete(null); // Reset on failure
                 return {
                     success: false, 
                     error: 'Failed to load the document',
                 }
             }
+            
+            // Mark signup as complete AFTER budgets are created
+            setSignupComplete(true);
+            
             toast.success('Sign Up successful! Welcome to BullBudget.');
             return { success: true, user: userCredential.user };
         } catch (error) {
+            setSignupComplete(null); // Reset on error
             showAuthError(error);
             setError(error);
             return { success: false, error };
@@ -182,13 +196,14 @@ export const UserProvider = ({ children }) => {
 
     const value = {
         user,
-        userId,
+        userId,  // Add userId back for stable reference
         getUserId,
         login,
         signUp,
-        signOut,  // Export as signOut
+        signOut,
         error,
-        loading
+        loading,
+        signupComplete, // Export the flag
     };
 
     return (

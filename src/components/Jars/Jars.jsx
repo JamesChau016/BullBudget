@@ -3,12 +3,10 @@ import toast from 'react-hot-toast'
 import styles from './Jars.module.css'
 import { useNavigate } from 'react-router-dom'
 import { useBudget } from '../../backend/useBudget.jsx'
-import { useUser } from '../../backend/user/useUser.jsx' // Add this
 
 function Jars({ budgets, depth, onBudgetUpdate }) {
   const navigate = useNavigate()
   const { addBudget } = useBudget() 
-  const { getUserId } = useUser()
 
   const addJar = async () => {
     const jarName = document.getElementById('add-jars-input').value.trim();

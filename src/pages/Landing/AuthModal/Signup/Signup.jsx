@@ -2,7 +2,7 @@ import { useAuthModalState } from '../../AuthModalStateContext';
 import toast from 'react-hot-toast'
 import styles from './Signup.module.css'
 import { useState } from 'react';
-import { useUser } from '../../../../backend/user/useUser';
+import { useUser } from '../../../../backend/user/useUser.jsx';
 import { useNavigate } from 'react-router-dom';
 
 function Signup({  }) {

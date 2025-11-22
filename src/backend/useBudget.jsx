@@ -1,40 +1,18 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { 
-    doc, 
-    getDoc,
     collection,
     query,
     where,
-    getDocs,
-    setDoc
+    getDocs
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
-import { useUser } from "./user/useUser";
+import { useUser } from "./user/useUser.jsx";
 
 const BudgetContext = createContext(null);
 
-const generateId = () => {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
-};
-
 export const BudgetProvider = ({ children }) => {
     const [budgets, setBudgets] = useState([]);
-    const { userId } = useUser(); // Use userId directly instead of getUserId
-
-    const getBudget = async (budgetId) => {
-        try {
-            const budgetDoc = await getDoc(doc(db, "budgets", budgetId));
-            
-            if (budgetDoc.exists()) {
-                return { success: true, budget: budgetDoc.data() };
-            } else {
-                return { success: false, error: 'Budget not found' };
-            }
-        } catch (error) {
-            console.error("Error getting budget:", error);
-            return { success: false, error };
-        }
-    };
+    const { userId, signupComplete } = useUser(); // Get signupComplete flag
 
     const getUserBudgets = async (userId) => {
         try {
@@ -57,71 +35,48 @@ export const BudgetProvider = ({ children }) => {
         }
     };
 
-    const loadBudgets = async () => {
-        const userId = getUserId();
+    // Load budgets when userId changes
+    useEffect(() => {
         if (!userId) {
             setBudgets([]);
             return;
         }
 
-        const result = await getUserBudgets(userId);
-        if (result.success) {
-            setBudgets(result.budgets);
-        } else {
-            console.error('Failed to load budgets:', result.error);
-            setBudgets([]);
-        }
-    };
-
-    const addBudget = async (budgetData) => {
-        try {
-            const budgetId = generateId();
-            const newBudget = {
-                id: budgetId,
-                ownerId: budgetData.ownerId,
-                type: 'personal',
-                name: budgetData.name,
-                currentBalance: budgetData.currentBalance || 0,
-                subBudgets: budgetData.subBudgets || [],
-                transactionList: budgetData.transactionList || [],
-                depth: budgetData.depth || 0,
-                parentId: budgetData.parentId || '',
-                createdAt: new Date(),
-                updatedAt: new Date()
-            };
-
-            await setDoc(doc(db, "budgets", budgetId), newBudget);
+        // If user just signed up, wait for signup to complete before loading budgets
+        if (signupComplete === false) {
+            // Signup is in progress, budgets are being created
+            // Wait for signupComplete to become true, then load
+            const checkSignupComplete = setInterval(async () => {
+                if (signupComplete === true) {
+                    clearInterval(checkSignupComplete);
+                    const result = await getUserBudgets(userId);
+                    if (result.success) {
+                        setBudgets(result.budgets);
+                    }
+                }
+            }, 200); // Check every 200ms
             
-            // Update local state
-            setBudgets(prev => [...prev, newBudget]);
-            
-            console.log("✅ Budget created successfully:", newBudget.name);
-            return { success: true, budget: newBudget };
-        } catch (error) {
-            console.error("Error creating budget:", error);
-            return { success: false, error };
+            return () => clearInterval(checkSignupComplete);
         }
-    };
 
-    // Load budgets when userId changes
-    useEffect(() => {
-        if (userId) {
-            loadBudgets();
-        } else {
-            setBudgets([]);
-        }
-    }, [userId]); // Use userId instead of getUserId()
+        // Normal load for existing users (signupComplete is null) or after signup completes (true)
+        const loadBudgets = async () => {
+            const result = await getUserBudgets(userId);
+            if (result.success) {
+                setBudgets(result.budgets);
+            } else {
+                setBudgets([]);
+            }
+        };
+
+        loadBudgets();
+    }, [userId, signupComplete]); // Add signupComplete to dependencies
 
     const value = {
         budgets,
         setBudgets,
-        getBudget,
         getUserBudgets,
-        addBudget,
-        loadBudgets
     };
-
-    console.log("Budgets:", budgets);
 
     return (
         <BudgetContext.Provider value={value}>
@@ -133,7 +88,7 @@ export const BudgetProvider = ({ children }) => {
 export const useBudget = () => {
     const context = useContext(BudgetContext);
     if (!context) {
-        throw new Error('useBudget must be used within a BudgetProvider');
+        throw Error('useBudget must be used within a BudgetProvider');
     }
     return context;
 };

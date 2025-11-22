@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import styles from './Login.module.css'
 import { useAuthModalState } from '../../AuthModalStateContext';
-import { useUser } from '../../../../backend/user/useUser';
+import { useUser } from '../../../../backend/user/useUser.jsx';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
