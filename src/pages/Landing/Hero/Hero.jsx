@@ -37,10 +37,49 @@ const Hero = () => {
                 </button>
             </div>
             <div
-                className = {`${styles['hero-image-container']}`}
-            >
-                This is the image container.
+    className = {`${styles['hero-image-container']}`}
+>
+    <div className={`${styles['dashboard-preview']}`}>
+        {/* Overall Stats */}
+        <div className={`${styles['preview-stats']}`}>
+            <div className={`${styles['stat-title']}`}>OVERALL STATS</div>
+            <div className={`${styles['total-balance']}`}>
+                <span className={`${styles['balance-label']}`}>Total Balance:</span>
+                <span className={`${styles['balance-amount']}`}>$5,300</span>
             </div>
+        </div>
+        
+        {/* Budget Jars */}
+        <div className={`${styles['preview-jars']}`}>
+            <div className={`${styles['jar-card']}`}>
+                <div className={`${styles['jar-name']}`}>BullBucks</div>
+                <div className={`${styles['jar-amount']}`}>$150</div>
+            </div>
+            <div className={`${styles['jar-card']}`}>
+                <div className={`${styles['jar-name']}`}>Dining Dollars</div>
+                <div className={`${styles['jar-amount']}`}>$150</div>
+            </div>
+            <div className={`${styles['jar-card']}`}>
+                <div className={`${styles['jar-name']}`}>Tuition Fee</div>
+                <div className={`${styles['jar-amount']}`}>$5,000</div>
+            </div>
+        </div>
+        {/* Chatbox Preview */}
+        <div className={`${styles['chatbox-preview']}`}>
+            <div className={`${styles['chatbox-header']}`}>
+                <span>🤖</span>
+                <span>AI Assistant</span>
+            </div>
+            <div className={`${styles['chatbox-messages']}`}>
+                <div className={`${styles['chat-message']}`}>
+                    <div className={`${styles['message-bubble']}`}>
+                        How can I help you manage your budget today?
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
         </div>
     )
 }
