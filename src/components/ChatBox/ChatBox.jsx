@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './ChatBox.module.css';
+import { chatWithGemini } from '../../services/geminiService';
 
 const ChatBox = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: 'Hi. I am your AI assistant. How can I help you today?'
+      content: 'Hello! I\'m BullBudget AI Assistant. I can help you with financial management, budgeting, and related questions. How can I assist you today?'
     }
   ]);
   const [inputValue, setInputValue] = useState('');
@@ -29,45 +30,40 @@ const ChatBox = () => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() || isLoading) return;
 
     const userMessage = {
       role: 'user',
-      content: inputValue
+      content: inputValue.trim()
     };
 
+    // Add user message immediately
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsLoading(true);
 
     try {
-      // TODO: Replace with your API endpoint
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: inputValue,
-          history: messages
-        })
-      });
-
-      const data = await response.json();
+      // Call Gemini API
+      const data = await chatWithGemini(userMessage.content, messages);
 
       if (data.success) {
+        // Add AI response
         setMessages(prev => [...prev, {
           role: 'assistant',
           content: data.response
         }]);
       } else {
-        throw new Error(data.error || 'Failed to get response');
+        // Add error message
+        setMessages(prev => [...prev, {
+          role: 'assistant',
+          content: data.error || 'Sorry, an error occurred. Please try again later.'
+        }]);
       }
     } catch (error) {
       console.error('Error:', error);
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: 'Sorry, something went wrong. Please try again later.'
+        content: 'Sorry, unable to connect to AI. Please check your connection and try again.'
       }]);
     } finally {
       setIsLoading(false);
@@ -97,7 +93,7 @@ const ChatBox = () => {
                 </svg>
               </div>
               <div className={styles.headerText}>
-                <h3>AI Assistant</h3>
+                <h3>BullBudget AI</h3>
                 <span className={styles.status}>
                   <span className={styles.statusDot}></span>
                   Online

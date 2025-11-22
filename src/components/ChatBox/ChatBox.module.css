@@ -46,7 +46,7 @@
 /* Chat Window */
 .chatWindow {
   position: fixed;
-  bottom: 80px; 
+  bottom: 80px;
   right: 24px;
   width: 380px;
   height: 480px;
