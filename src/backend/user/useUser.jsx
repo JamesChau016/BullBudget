@@ -1,25 +1,46 @@
-import { useState } from 'react';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createContext, useContext, useState, useEffect } from 'react';
+import { 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    onAuthStateChanged,
+    signOut as firebaseSignOut
+} from "firebase/auth";
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from "../../firebase/firebase.js";
 import toast from 'react-hot-toast';
 import { initialBudgets } from '../budgetData.js';
 
+const UserContext = createContext(null);
+
 const generateId = () => {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
 };
 
-export const useUser = () => {
+export const UserProvider = ({ children }) => {
+    const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true); // Track initial auth state loading
+
+    // Listen to auth state changes
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+            setLoading(false);
+        });
+
+        return () => unsubscribe();
+    }, []);
 
     // Get current user ID
     const getUserId = () => {
-        const user = auth.currentUser;
         if (user) {
             return user.uid;
         }
         return null;
     };
+
+    // Derived userId for easier access
+    const userId = user?.uid || null;
 
     const showAuthError = (error) => {
         if (error.code === 'auth/email-already-in-use') {
@@ -35,7 +56,7 @@ export const useUser = () => {
         } else {
             toast.error('An error occurred. Please try again.');
         }
-    }
+    };
 
     const createInitialBudgets = async (userId) => {
         try {
@@ -68,7 +89,7 @@ export const useUser = () => {
             toast.error('Error creating initial budgets.');
             return false;
         }
-    }
+    };
     
     const createUserDocument = async (newUser) => {
         try {
@@ -92,7 +113,7 @@ export const useUser = () => {
             toast.error('Error setting up user profile.');
             return false;
         }
-    }
+    };
 
     const login = async (email, password) => {
         if (!email.trim() || !password.trim()) {
@@ -104,16 +125,16 @@ export const useUser = () => {
 
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
+            const loggedInUser = userCredential.user;
             
             toast.success('Login successful! Welcome back.');
-            return { success: true, user };
+            return { success: true, user: loggedInUser };
         } catch (error) {
             showAuthError(error);
             setError(error);
             return { success: false, error };
         }
-    }
+    };
 
     const signUp = async (email, password, passwordRe) => {
         if (!email.trim() || !password.trim()) {
@@ -147,10 +168,40 @@ export const useUser = () => {
         }
     };
 
-    return {
+    const signOut = async () => {
+        try {
+            await firebaseSignOut(auth);
+            toast.success('Logout successful! See you next time.');
+            return { success: true };
+        } catch (error) {
+            console.error('Logout error:', error);
+            toast.error('Failed to logout. Please try again.');
+            return { success: false, error };
+        }
+    };
+
+    const value = {
+        user,
+        userId,
         getUserId,
         login,
         signUp,
-        error
+        signOut,  // Export as signOut
+        error,
+        loading
     };
+
+    return (
+        <UserContext.Provider value={value}>
+            {children}
+        </UserContext.Provider>
+    );
+};
+
+export const useUser = () => {
+    const context = useContext(UserContext);
+    if (!context) {
+        throw new Error('useUser must be used within a UserProvider');
+    }
+    return context;
 };

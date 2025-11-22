@@ -1,31 +1,68 @@
-import React,{ useState } from 'react'
+import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import styles from './Jars.module.css'
 import { useNavigate } from 'react-router-dom'
-import { setCurrentScreen } from 'firebase/analytics'
+import { useBudget } from '../../backend/useBudget.jsx'
+import { useUser } from '../../backend/user/useUser.jsx' // Add this
 
-//từ đây đổi tên thành component để chứa các Budgets
-
-
-//sửa một vài tham số để đồng bộ với App.jsx với Dashboard.jsx
-function Jars({ budgets, setBudgets }) {
+function Jars({ budgets, depth, onBudgetUpdate }) {
   const navigate = useNavigate()
+  const { addBudget } = useBudget() 
+  const { getUserId } = useUser()
 
-  // Sửa JarName thành budgets
-  function addJar() {
-    const jarName = document.getElementById('add-jars-input').value;
+  const addJar = async () => {
+    const jarName = document.getElementById('add-jars-input').value.trim();
+    const userId = getUserId(); // Now this will work
+    
+    if (!userId) {
+      toast.error('You must be logged in to create a budget');
+      return;
+    }
+
+    // Check if name already exists
     const nameExists = budgets.some(b => b.name === jarName);
     
-    if (!nameExists && jarName.trim() !== "") {
-      setBudgets([...budgets, { 
-        id: Date.now(), 
-        name: jarName, 
-        currentBalance: 0 
-      }]);
-      toast.success(`Jar "${jarName}" added`);
-      document.getElementById('add-jars-input').value = '';
-    } else {
-      toast.error('Please fill in a unique Jar name!');
+    if (jarName === "") {
+      toast.error('Please enter a budget name!');
+      return;
+    }
+
+    if (nameExists) {
+      toast.error('Budget name already exists!');
+      return;
+    }
+
+  
+
+    try {
+      const result = await addBudget({
+        ownerId: userId,
+        name: jarName,
+        currentBalance: 0,
+        depth: depth + 1,
+        // Other fields will use defaults:
+        // type: 'personal'
+        // subBudgets: []
+        // transactionList: []
+        // depth: 0
+        // parentId: ''
+      });
+
+      if (result.success) {
+        toast.success(`Budget "${jarName}" added successfully!`);
+        document.getElementById('add-jars-input').value = '';
+        
+        // Refresh the budgets list
+        if (onBudgetUpdate) {
+          await onBudgetUpdate();
+        }
+      } else {
+        toast.error('Failed to create budget');
+      }
+    } catch (error) {
+      console.error('Error adding budget:', error);
+      toast.error('Error creating budget');
+    } finally {
     }
   }
 

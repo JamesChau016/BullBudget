@@ -5,8 +5,10 @@ import toast from 'react-hot-toast'
 import Header from '../../components/Header/Header'
 import NavigationButton from '../../components/NavigationButton/NavigationButton'
 import ConfirmModal from '../../components/ConfirmModal/ConfirmModal'
+import { useBudget } from '../../backend/useBudget.jsx'
 
-const BudgetDetail = ({ budgets, setBudgets }) => {
+const BudgetDetail = () => {
+  const { budgets, setBudgets } = useBudget(); // Get from context
   const { budgetName } = useParams()
   const navigate = useNavigate()
   
