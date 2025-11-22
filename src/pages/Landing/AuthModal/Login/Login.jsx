@@ -18,6 +18,8 @@ function Login({ setLoggedIn }) {
             toast.error('Incorrect password. Please try again.');
         } else if (error.code === 'auth/invalid-email') {
             toast.error('Please enter a valid email address.');
+        } else if (error.code === 'auth/invalid-credential') {
+            toast.error('Invalid credentials provided. Please try again.');
         }
     }
 
