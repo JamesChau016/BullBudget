@@ -11,13 +11,19 @@ import { db } from './firebase/firebase.js'
 import Login from './pages/Landing/AuthModal/Login/Login'
 import AuthModal from './pages/Landing/AuthModal/AuthModal'
 import BudgetDetail from './pages/BudgetDetail/BudgetDetail'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from './firebase/firebase.js'
 
-const NavigationWrapper = ({ budgets, setBudgets }) => {
+const NavigationWrapper = ({ budgets, setBudgets, user }) => {
   const navigate = useNavigate();
 
   useEffect( () => {
-    navigate("/");
-  }, [])
+    if (user) {
+      navigate("/dashboard");
+    } else {
+      navigate("/");
+    }
+  }, [user, navigate])
 
   return (
     <Routes>
@@ -62,6 +68,15 @@ const TestElement = () => {
 function App() {
   // State chung. We can work on this later
   const [budgets, setBudgets] = useState(initialBudgets);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>
@@ -69,6 +84,7 @@ function App() {
       <NavigationWrapper
           budgets = {budgets}
           setBudgets = {setBudgets}
+          user = {user}
         >
       </NavigationWrapper>
       {/* <TestElement
