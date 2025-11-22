@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React,{ useEffect, useState } from 'react'
 import {ToastBar, Toaster} from 'react-hot-toast'
 import './App.css'
 import Landing from './pages/Landing/Landing'

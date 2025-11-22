@@ -1,7 +1,7 @@
 import { useAuthModalState } from '../../AuthModalStateContext';
 import toast from 'react-hot-toast'
 import styles from './Signup.module.css'
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {createUserWithEmailAndPassword} from "firebase/auth";
 import { auth } from "../../../../firebase/firebase.js";
 
