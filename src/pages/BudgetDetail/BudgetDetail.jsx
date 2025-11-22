@@ -4,6 +4,7 @@ import styles from './BudgetDetail.module.css'
 import toast from 'react-hot-toast'
 import Header from '../../components/Header/Header'
 import NavigationButton from '../../components/NavigationButton/NavigationButton'
+import ConfirmModal from '../../components/ConfirmModal/ConfirmModal'
 
 const BudgetDetail = ({ budgets, setBudgets }) => {
   const { budgetName } = useParams()
@@ -18,6 +19,7 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
   
   // State cho transaction history 
   const [transactions, setTransactions] = useState([])
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   
   if (!budget) {
     navigate('/dashboard')
@@ -35,12 +37,15 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
 
   // Remove jar của Huy
   const handleRemoveJar = () => {
-    if (window.confirm(`Are you sure you want to delete "${budgetName}" budget?`)) {
-      const updatedBudgets = budgets.filter(b => b.name !== budgetName)
-      setBudgets(updatedBudgets)
-      toast.success(`Budget "${budgetName}" removed successfully`)
-      navigate('/dashboard')
-    }
+    setShowDeleteConfirm(true)
+  }
+
+  const handleConfirmDelete = () => {
+    const updatedBudgets = budgets.filter(b => b.name !== budgetName)
+    setBudgets(updatedBudgets)
+    toast.success(`Budget "${budgetName}" removed successfully`)
+    setShowDeleteConfirm(false)
+    navigate('/dashboard')
   }
   
   const handleTransaction = (e) => {
@@ -235,6 +240,16 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
         </button>
       </div>
 
+      <ConfirmModal
+        isOpen={showDeleteConfirm}
+        title="Delete Budget"
+        message={`Are you sure you want to delete "${budgetName}" budget? This action cannot be undone.`}
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setShowDeleteConfirm(false)}
+        confirmText="Delete"
+        cancelText="Cancel"
+        isDestructive={true}
+      />
       </div>
     </>
   )
