@@ -5,10 +5,10 @@
 
 .transaction-history-heading {
   margin: 0 0 1rem 0;
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 2.25rem;
+  font-weight: 800;
   line-height: 1;
-  text-align: left;
+  text-align: center;
   color: #0d8e7e;
 }
 
@@ -20,3 +20,20 @@
   font-size: 1rem;
   color: #444;
 } 
+.empty-state {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: #666;
+}
+
+.empty-state p {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.empty-hint {
+  font-size: 0.9rem;
+  font-weight: 400;
+  opacity: 0.7;
+}

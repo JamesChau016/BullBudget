@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import styles from './BudgetDetail.module.css'
+import toast from 'react-hot-toast'
 import Header from '../../components/Header/Header'
 import NavigationButton from '../../components/NavigationButton/NavigationButton'
-import toast from 'react-hot-toast'
 
 const BudgetDetail = ({ budgets, setBudgets }) => {
   const { budgetName } = useParams()
@@ -22,6 +22,10 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
   if (!budget) {
     navigate('/dashboard')
     return null
+  }
+
+  const handleLogout = () => {
+    navigate('/')
   }
   
   const handleBackToDashboard = () => {
@@ -82,11 +86,11 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
   return (
     <>
       <Header>
-        <NavigationButton onClick={handleBackToDashboard}>
-          Back to Dashboard
+        <NavigationButton onClick={handleLogout}>
+          Logout
         </NavigationButton>
       </Header>
-      
+
       <div className={styles.container}>
         <div className={styles['budget-header']}>
           <h1 className={styles['budget-name']}>{budget.name}</h1>
@@ -204,6 +208,16 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
             )}
           </div>
         </div>
+
+      <div className={styles['back-button-container']}> {/* Back button container */}
+        <button 
+          className={styles['back-button']} 
+          onClick={handleBackToDashboard}
+        >
+          Back to Dashboard
+        </button>
+      </div>
+
       </div>
     </>
   )

@@ -5,6 +5,8 @@ import dashboardStyles from '../Dashboard.module.css'
 const Stats = ({ budgets, setBudgets }) => {
 
   const totalBalance = budgets.reduce((sum, jar) => sum + jar.balance, 0);
+  const numBudgets = budgets.length;
+  const avgBalance = numBudgets > 0 ? Math.round(totalBalance / numBudgets) : 0;
 
   return (
     <>
@@ -14,7 +16,7 @@ const Stats = ({ budgets, setBudgets }) => {
         <h2
           className = {styles['stats-heading']}
         >
-          Stats
+          OVERALL STATS
         </h2>
         <div
           className = {styles['stats-content']}
@@ -24,6 +26,18 @@ const Stats = ({ budgets, setBudgets }) => {
           >
             Total Balance: <span className = {styles['stat-value']}>${totalBalance.toLocaleString()}</span>
           </p>
+          <div className={styles['metrics-grid']}>
+            <div className={styles.metric}>
+              <span className={styles['metric-icon']}>📊</span>
+              <span className={styles['metric-value']}>{numBudgets}</span>
+              <span className={styles['metric-label']}>Budgets</span>
+            </div>
+            <div className={styles.metric}>
+              <span className={styles['metric-icon']}>💰</span>
+              <span className={styles['metric-value']}>${avgBalance.toLocaleString()}</span>
+              <span className={styles['metric-label']}>Average</span>
+            </div>
+          </div>
         </div>
       </div>
     </>
