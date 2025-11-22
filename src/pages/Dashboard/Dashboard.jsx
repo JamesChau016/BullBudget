@@ -11,6 +11,7 @@ import Jars from '../../components/Jars/Jars';
 import { auth } from "../../firebase/firebase.js";
 import {signOut} from "firebase/auth";
 import toast from 'react-hot-toast';
+import ChatBox from '../../components/ChatBox/ChatBox.jsx';
 
 
 
@@ -46,6 +47,7 @@ const Dashboard = ({ budgets, setBudgets }) => {
           <TransactionHistory budgets={budgets} />
         </div>
       </main>
+      <ChatBox />
     </>
   )
 };
