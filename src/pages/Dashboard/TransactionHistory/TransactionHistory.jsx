@@ -16,7 +16,12 @@ const TransactionHistory = ({ }) => {
         <div
           className = {styles['transaction-list']}
         >
-          (PlaceHolder)
+          <div className={styles['empty-state']}>
+            <p>No recent transactions</p>
+            <p className={styles['empty-hint']}>
+              Start adding transactions to your budgets!
+            </p>
+          </div>
         </div>
       </div>
     </>

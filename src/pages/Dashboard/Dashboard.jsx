@@ -31,24 +31,15 @@ const Dashboard = ({ budgets, setBudgets }) => {
       <main
         className = {styles.container}
       >
-        <Welcome>
-        </Welcome>
-        <div
-          className = {styles.overview}
-        >
-          <TransactionHistory>
-          </TransactionHistory>
-          <Stats
-            budgets = {budgets}
-            setBudgets = {setBudgets}
-          >
-          </Stats>
+        <div className={styles.heroSection}>
+          <Welcome />
+          <Stats budgets={budgets} setBudgets={setBudgets} />
         </div>
-        <BudgetList
-          budgets = {budgets}
-          setBudgets = {setBudgets}
-        >
-        </BudgetList>
+
+        <div className={styles.mainContent}>
+          <BudgetList budgets={budgets} setBudgets={setBudgets} />
+          <TransactionHistory budgets={budgets} />
+        </div>
       </main>
     </>
   )
