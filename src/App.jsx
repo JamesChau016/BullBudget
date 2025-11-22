@@ -15,7 +15,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from './firebase/firebase.js'
 import IncomeDetail from './pages/Income/IncomeDetail'
 
-const NavigationWrapper = ({ budgets, setBudgets, user, income, setIncome }) => {
+const NavigationWrapper = ({ budgets, setBudgets, user, income, setIncome, transactions, setTransactions }) => {
   const navigate = useNavigate();
 
   useEffect( () => {
@@ -41,6 +41,8 @@ const NavigationWrapper = ({ budgets, setBudgets, user, income, setIncome }) => 
             setBudgets = {setBudgets}
             income={income}
             setIncome={setIncome}
+            transactions={transactions}
+            setTransactions={setTransactions}
           ></Dashboard>
         }
       ></Route>
@@ -50,6 +52,8 @@ const NavigationWrapper = ({ budgets, setBudgets, user, income, setIncome }) => 
           <BudgetDetail
             budgets={budgets}
             setBudgets={setBudgets}
+            transactions={transactions}
+            setTransactions={setTransactions} 
           ></BudgetDetail>
         }
       ></Route>
@@ -68,6 +72,7 @@ const NavigationWrapper = ({ budgets, setBudgets, user, income, setIncome }) => 
 
 const TestElement = () => {
   const [budgets, setBudgets] = useState(initialBudgets);
+  const [transactions, setTransactions] = useState([]);
   return (
       <>
         <AuthModal></AuthModal>
@@ -80,6 +85,7 @@ function App() {
   const [budgets, setBudgets] = useState(initialBudgets);
   const [user, setUser] = useState(null);
   const  [income, setIncome] = useState({ balance: 0, transactions: [] });
+  const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -98,6 +104,8 @@ function App() {
           income = {income}
           setIncome = {setIncome}
           user = {user}
+          transactions = {transactions}
+          setTransactions = {setTransactions}
         >
       </NavigationWrapper>
       {/* <TestElement
