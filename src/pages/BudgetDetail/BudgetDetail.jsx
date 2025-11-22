@@ -16,6 +16,8 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
   const [amount, setAmount] = useState('')
   const [transactionType, setTransactionType] = useState('add') 
   const [description, setDescription] = useState('')
+  const [date, setDate] = useState(() => new Date().toISOString().slice(0,10))
+  const [repeat, setRepeat] = useState('none')
   
   // State cho transaction history 
   const [transactions, setTransactions] = useState([])
@@ -84,13 +86,16 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
       type: transactionType,
       amount: amountNum,
       description: description || (transactionType === 'add' ? 'Deposit' : 'Withdrawal'),
-      date: new Date().toLocaleString()
+      date: date ? new Date(date).toISOString() : new Date().toISOString(),
+      repeat: repeat || 'none'
     }
-    
+
     setTransactions([newTransaction, ...transactions])
-    
+
     setAmount('')
     setDescription('')
+    setDate(new Date().toISOString().slice(0,10))
+    setRepeat('none')
     
     toast.success(
       transactionType === 'add' 
@@ -175,6 +180,37 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
+
+              <div className={styles['form-group']}>
+                <label className={styles['form-label']} htmlFor="date">
+                  Date
+                </label>
+                <input
+                  id="date"
+                  type="date"
+                  className={styles['input-field']}
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                />
+              </div>
+
+              <div className={styles['form-group']}>
+                <label className={styles['form-label']} htmlFor="repeat">
+                  Repeat
+                </label>
+                <select
+                  id="repeat"
+                  className={styles['input-field']}
+                  value={repeat}
+                  onChange={(e) => setRepeat(e.target.value)}
+                >
+                  <option value="none">None</option>
+                  <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="yearly">Yearly</option>
+                </select>
+              </div>
               
               <button
                 type="submit"
@@ -212,8 +248,13 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
                         {transaction.description}
                       </div>
                       <div className={styles['transaction-date']}>
-                        {transaction.date}
+                        {transaction.date ? new Date(transaction.date).toLocaleString() : ''}
                       </div>
+                      {transaction.repeat && transaction.repeat !== 'none' && (
+                        <div className={styles['transaction-repeat']}>
+                          {`Repeats: ${transaction.repeat.charAt(0).toUpperCase() + transaction.repeat.slice(1)}`}
+                        </div>
+                      )}
                     </div>
                     <div className={styles['transaction-amount']}>
                       {transaction.type === 'add' ? '+' : '-'}${transaction.amount.toFixed(2)}
