@@ -430,3 +430,27 @@
     bottom: 16px;
   }
 }
+
+.messageContent table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 13px;
+}
+
+.messageContent th,
+.messageContent td {
+  padding: 8px 12px;
+  text-align: left;
+  border: 1px solid #e5e7eb;
+}
+
+.messageContent th {
+  background: #f3f4f6;
+  font-weight: 600;
+}
+
+.assistantMessage .messageContent strong {
+  color: #047857;
+  font-weight: 700;
+}

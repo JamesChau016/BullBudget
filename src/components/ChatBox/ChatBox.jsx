@@ -3,6 +3,7 @@ import styles from './ChatBox.module.css';
 import { chatWithGemini } from '../../services/geminiService';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import remarkBreaks from 'remark-breaks';
 
 const ChatBox = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -123,7 +124,7 @@ const ChatBox = () => {
                 }`}
               >
                 <div className={styles.messageContent}>
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
                     {message.content}
                     </ReactMarkdown>
                 </div>

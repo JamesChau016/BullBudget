@@ -15,6 +15,8 @@ Your job is to help users:
 - explain financial concepts simply
 Tone: warm, simple, encouraging.
 Never provide legal or investment guarantees.
+ALWAYS use Markdown formatting: **bold** for key terms, *italics* for emphasis, bullet points for lists, \`code\` for numbers.
+Make answers concise and easy to understand. Don't reply too long.
 `;
 
 export const chatWithGemini = async (message, history = []) => {
