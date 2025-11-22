@@ -53,7 +53,7 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
       return
     }
     
-    if (transactionType === 'withdraw' && amountNum > budget.balance) {
+    if (transactionType === 'withdraw' && amountNum > budget.currentBalance) {
       toast.error('Insufficient balance')
       return
     }
@@ -63,9 +63,9 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
       if (b.name === budgetName) {
         return {
           ...b,
-          balance: transactionType === 'add' 
-            ? b.balance + amountNum 
-            : b.balance - amountNum
+          currentBalance: transactionType === 'add' 
+            ? b.currentBalance + amountNum 
+            : b.currentBalance - amountNum
         }
       }
       return b
@@ -107,7 +107,7 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
           <h1 className={styles['budget-name']}>{budget.name}</h1>
           <div className={styles['budget-balance']}>
             <span className={styles['balance-label']}>Current Balance</span>
-            <span className={styles['balance-amount']}>${budget.balance.toLocaleString()}</span>
+            <span className={styles['balance-amount']}>${budget.currentBalance.toLocaleString()}</span>
           </div>
         </div>
         

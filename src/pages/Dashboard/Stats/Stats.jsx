@@ -4,7 +4,7 @@ import dashboardStyles from '../Dashboard.module.css'
 
 const Stats = ({ budgets, setBudgets }) => {
 
-  const totalBalance = budgets.reduce((sum, jar) => sum + jar.balance, 0);
+  const totalBalance = budgets.reduce((sum, jar) => sum + jar.currentBalance, 0);
   const numBudgets = budgets.length;
   const avgBalance = numBudgets > 0 ? Math.round(totalBalance / numBudgets) : 0;
 

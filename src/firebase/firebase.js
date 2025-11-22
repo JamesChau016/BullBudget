@@ -1,6 +1,6 @@
 // modular SDK (v9+)
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { getAuth, 
         onAuthStateChanged, 
         signInWithEmailAndPassword, 
@@ -32,4 +32,5 @@ export const auth = getAuth(app);     // Authentication
 
 if (location.hostname === "localhost") {
     connectAuthEmulator(auth, "http://127.0.0.1:9099");
+    connectFirestoreEmulator(db, 'localhost', 8080);
 }

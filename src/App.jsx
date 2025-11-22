@@ -4,7 +4,7 @@ import './App.css'
 import Landing from './pages/Landing/Landing'
 import Dashboard from './pages/Dashboard/Dashboard'
 import Jars from './components/Jars/Jars';
-import { initialBudgets } from './Data/budgetData'
+import { initialBudgets } from './backend/budgetData'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 //import BudgetList from './components/BudgetList/BudgetList'
 import { db } from './firebase/firebase.js'
@@ -18,10 +18,8 @@ const NavigationWrapper = ({ budgets, setBudgets, user }) => {
   const navigate = useNavigate();
 
   useEffect( () => {
-    if (user) {
-      navigate("/dashboard");
-    } else {
-      navigate("/")
+    if (!user) {
+      navigate("/");
     }
   }, [user])
 
