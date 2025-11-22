@@ -9,9 +9,17 @@ const generateId = () => {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
 };
 
-
 export const useUser = () => {
     const [error, setError] = useState(null);
+
+    // Get current user ID
+    const getUserId = () => {
+        const user = auth.currentUser;
+        if (user) {
+            return user.uid;
+        }
+        return null;
+    };
 
     const showAuthError = (error) => {
         if (error.code === 'auth/email-already-in-use') {
@@ -29,7 +37,7 @@ export const useUser = () => {
         }
     }
 
-     const createInitialBudgets = async (userId) => {
+    const createInitialBudgets = async (userId) => {
         try {
             console.log("💰 Creating initial budgets for user:", userId);
             
@@ -61,7 +69,6 @@ export const useUser = () => {
             return false;
         }
     }
-    
     
     const createUserDocument = async (newUser) => {
         try {
@@ -141,8 +148,9 @@ export const useUser = () => {
     };
 
     return {
+        getUserId,
         login,
         signUp,
         error
     };
-};  
+};
