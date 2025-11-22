@@ -1,12 +1,24 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import styles from './Stats.module.css'
 import dashboardStyles from '../Dashboard.module.css'
 
-const Stats = ({ budgets, setBudgets }) => {
+const Stats = ({ budgets, income }) => {
 
-  const totalBalance = budgets.reduce((sum, jar) => sum + jar.currentBalance, 0);
+  const budgetsTotal = budgets.reduce((sum, jar) => sum + jar.currentBalance, 0);
   const numBudgets = budgets.length;
-  const avgBalance = numBudgets > 0 ? Math.round(totalBalance / numBudgets) : 0;
+  
+  // Safety check for income
+  const incomeBalance = income?.balance || 0;
+  const totalBalance = budgetsTotal + incomeBalance;
+  
+  // console.log('Stats - income balance:', incomeBalance); // Debug log
+
+  const navigate = useNavigate();
+
+  const handleIncomeClick = () => {
+    navigate(`/income`)
+  }
 
   return (
     <>
@@ -32,10 +44,17 @@ const Stats = ({ budgets, setBudgets }) => {
               <span className={styles['metric-value']}>{numBudgets}</span>
               <span className={styles['metric-label']}>Budgets</span>
             </div>
-            <div className={styles.metric}>
+            <div
+              className={styles['metric-income']}
+              onClick={handleIncomeClick}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleIncomeClick() }}
+              style={{ cursor: 'pointer' }}
+            >
               <span className={styles['metric-icon']}>💰</span>
-              <span className={styles['metric-value']}>${avgBalance.toLocaleString()}</span>
-              <span className={styles['metric-label']}>Average</span>
+              <span className={styles['metric-value']}>${incomeBalance.toLocaleString()}</span>
+              <span className={styles['metric-label']}>Income</span>
             </div>
           </div>
         </div>

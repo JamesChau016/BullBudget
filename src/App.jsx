@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {ToastBar, Toaster} from 'react-hot-toast'
 import './App.css'
 import Landing from './pages/Landing/Landing'
@@ -13,8 +13,9 @@ import AuthModal from './pages/Landing/AuthModal/AuthModal'
 import BudgetDetail from './pages/BudgetDetail/BudgetDetail'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from './firebase/firebase.js'
+import IncomeDetail from './pages/Income/IncomeDetail'
 
-const NavigationWrapper = ({ budgets, setBudgets, user }) => {
+const NavigationWrapper = ({ budgets, setBudgets, user, income, setIncome }) => {
   const navigate = useNavigate();
 
   useEffect( () => {
@@ -38,6 +39,8 @@ const NavigationWrapper = ({ budgets, setBudgets, user }) => {
           <Dashboard
             budgets = {budgets}
             setBudgets = {setBudgets}
+            income={income}
+            setIncome={setIncome}
           ></Dashboard>
         }
       ></Route>
@@ -48,6 +51,15 @@ const NavigationWrapper = ({ budgets, setBudgets, user }) => {
             budgets={budgets}
             setBudgets={setBudgets}
           ></BudgetDetail>
+        }
+      ></Route>
+      <Route
+        path="/income"
+        element={
+          <IncomeDetail
+            income={income}
+            setIncome={setIncome}
+          ></IncomeDetail>
         }
       ></Route>
     </Routes>
@@ -67,6 +79,7 @@ function App() {
   // State chung. We can work on this later
   const [budgets, setBudgets] = useState(initialBudgets);
   const [user, setUser] = useState(null);
+  const  [income, setIncome] = useState({ balance: 0, transactions: [] });
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -82,6 +95,8 @@ function App() {
       <NavigationWrapper
           budgets = {budgets}
           setBudgets = {setBudgets}
+          income = {income}
+          setIncome = {setIncome}
           user = {user}
         >
       </NavigationWrapper>

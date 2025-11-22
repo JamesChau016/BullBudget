@@ -51,7 +51,7 @@ function Jars({ budgets, setBudgets }) {
           key={budget.id}
           className={styles.jar}
         >
-          <h2 id={styles['jar-label']}>{budget.name}</h2>
+          <h2 className={styles['jar-label']}>{budget.name}</h2>
           <p className={styles['jar-balance']}>${budget.currentBalance.toLocaleString()}</p>
         </div>
       ))}

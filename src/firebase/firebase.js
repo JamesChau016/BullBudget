@@ -29,7 +29,6 @@ const analytics = getAnalytics(app);
 export const db = getFirestore(app);         // Cloud Firestore;    
 export const auth = getAuth(app);     // Authentication
 
-
 if (location.hostname === "localhost") {
     connectAuthEmulator(auth, "http://127.0.0.1:9099");
     connectFirestoreEmulator(db, 'localhost', 8080);
