@@ -5,7 +5,8 @@ import {
     where,
     getDocs,
     doc,
-    setDoc
+    setDoc,
+    deleteDoc
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { useUser } from "./user/useUser.jsx";
@@ -70,6 +71,21 @@ export const BudgetProvider = ({ children }) => {
         }
     };
 
+    const removeBudget = async (budgetId) => {
+        try {
+            // Delete from Firestore
+            await deleteDoc(doc(db, "budgets", budgetId));
+            
+            // Update local state
+            setBudgets(prev => prev.filter(b => b.id !== budgetId));
+            
+            return { success: true };
+        } catch (error) {
+            console.error("Error deleting budget:", error);
+            return { success: false, error };
+        }
+    };
+
     // Load budgets when userId changes
     useEffect(() => {
         if (!userId) {
@@ -112,6 +128,7 @@ export const BudgetProvider = ({ children }) => {
         setBudgets,
         getUserBudgets,
         addBudget,
+        removeBudget,
     };
 
     return (

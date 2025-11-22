@@ -8,7 +8,7 @@ import ConfirmModal from '../../components/ConfirmModal/ConfirmModal'
 import { useBudget } from '../../backend/useBudget.jsx'
 
 const BudgetDetail = () => {
-  const { budgets, setBudgets } = useBudget(); // Get from context
+  const { budgets, removeBudget } = useBudget(); // Get removeBudget from context
   const { budgetName } = useParams()
   const navigate = useNavigate()
   
@@ -43,12 +43,22 @@ const BudgetDetail = () => {
     setShowDeleteConfirm(true)
   }
 
-  const handleConfirmDelete = () => {
-    const updatedBudgets = budgets.filter(b => b.name !== budgetName)
-    setBudgets(updatedBudgets)
-    toast.success(`Budget "${budgetName}" removed successfully`)
-    setShowDeleteConfirm(false)
-    navigate('/dashboard')
+  const handleConfirmDelete = async () => {
+    if (!budget || !budget.id) {
+      toast.error('Budget not found');
+      return;
+    }
+
+    const result = await removeBudget(budget.id);
+    
+    if (result.success) {
+      toast.success(`Budget "${budgetName}" removed successfully`);
+      setShowDeleteConfirm(false);
+      navigate('/dashboard');
+    } else {
+      toast.error('Failed to delete budget');
+      setShowDeleteConfirm(false);
+    }
   }
   
   const handleTransaction = (e) => {
