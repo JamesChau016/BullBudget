@@ -46,7 +46,7 @@ const Dashboard = ({ income, setIncome }) => {
 
         <div className={styles.mainContent}>
           <Jars budgets={budgets} setBudgets={setBudgets} />
-          <TransactionHistory budgets={budgets} transactions={transactions} />
+          <TransactionHistory budgets={budgets} />
         </div>
       </main>
       <ChatBox />
