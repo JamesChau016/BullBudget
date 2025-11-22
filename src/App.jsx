@@ -65,6 +65,7 @@ function App() {
 
   return (
     <>
+      <Toaster position="top-center" reverseOrder={false} />
       <NavigationWrapper
           budgets = {budgets}
           setBudgets = {setBudgets}
