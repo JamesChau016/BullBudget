@@ -15,7 +15,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from './firebase/firebase.js'
 import IncomeDetail from './pages/Income/IncomeDetail'
 
-const NavigationWrapper = ({ budgets, setBudgets, user, income, setIncome }) => {
+const NavigationWrapper = ({ budgets, setBudgets, user, income, setIncome, transactions, setTransactions }) => {
   const navigate = useNavigate();
 
   useEffect( () => {
@@ -85,6 +85,7 @@ function App() {
   const [budgets, setBudgets] = useState(initialBudgets);
   const [user, setUser] = useState(null);
   const  [income, setIncome] = useState({ balance: 0, transactions: [] });
+  const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -103,6 +104,8 @@ function App() {
           income = {income}
           setIncome = {setIncome}
           user = {user}
+          transactions = {transactions}
+          setTransactions = {setTransactions}
         >
       </NavigationWrapper>
       {/* <TestElement

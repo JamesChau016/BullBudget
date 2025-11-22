@@ -6,7 +6,7 @@ import Header from '../../components/Header/Header'
 import NavigationButton from '../../components/NavigationButton/NavigationButton'
 import ConfirmModal from '../../components/ConfirmModal/ConfirmModal'
 
-const BudgetDetail = ({ budgets, setBudgets }) => {
+const BudgetDetail = ({ budgets, setBudgets, transactions, setTransactions }) => {
   const { budgetName } = useParams()
   const navigate = useNavigate()
   
@@ -69,6 +69,7 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
       id: Date.now(),
       type: transactionType,
       amount: amountNum,
+      budgetName: budgetName,  
       description: description || (transactionType === 'add' ? 'Deposit' : 'Withdrawal'),
       date: date ? new Date(date).toISOString() : new Date().toISOString(),
       repeat: repeat || 'none'
