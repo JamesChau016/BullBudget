@@ -346,3 +346,20 @@
   transform: translateY(0px);
   box-shadow: 0 2px 6px rgba(13, 142, 126, 0.12);
 }
+
+.remove-button {
+  padding: 12px 24px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  margin-left: 10px;
+}
+
+.remove-button:hover {
+  background-color: #c82333;
+}

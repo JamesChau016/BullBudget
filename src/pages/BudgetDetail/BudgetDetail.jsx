@@ -27,9 +27,20 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
   const handleLogout = () => {
     navigate('/')
   }
-  
+
+  //Dashboard button
   const handleBackToDashboard = () => {
     navigate('/dashboard')
+  }
+
+  // Remove jar của Huy
+  const handleRemoveJar = () => {
+    if (window.confirm(`Are you sure you want to delete "${budgetName}" budget?`)) {
+      const updatedBudgets = budgets.filter(b => b.name !== budgetName)
+      setBudgets(updatedBudgets)
+      toast.success(`Budget "${budgetName}" removed successfully`)
+      navigate('/dashboard')
+    }
   }
   
   const handleTransaction = (e) => {
@@ -215,6 +226,12 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
           onClick={handleBackToDashboard}
         >
           Back to Dashboard
+        </button>
+        <button
+          className={styles['remove-button']}
+          onClick={handleRemoveJar}
+        >
+          Remove Jar
         </button>
       </div>
 
