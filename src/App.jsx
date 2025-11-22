@@ -16,7 +16,7 @@ const NavigationWrapper = ({ budgets, setBudgets }) => {
   const navigate = useNavigate();
 
   useEffect( () => {
-    navigate("/");
+    navigate("/dashboard"); //tạm thời chuyển thẳng đến dashboard
   }, [])
 
   return (
