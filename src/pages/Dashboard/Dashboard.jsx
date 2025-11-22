@@ -15,7 +15,8 @@ import toast from 'react-hot-toast';
 
 
 
-const Dashboard = ({ budgets, setBudgets }) => {
+
+const Dashboard = ({ budgets, setBudgets, income, setIncome  }) => {
   const navigate = useNavigate();
 
   const handleLogoutClicked = async () => {
@@ -32,13 +33,13 @@ const Dashboard = ({ budgets, setBudgets }) => {
           >            
             Logout
           </NavigationButton>
-        </Header>
+      </Header>
       <main
         className = {styles.container}
       >
         <div className={styles.heroSection}>
           <Welcome />
-          <Stats budgets={budgets} setBudgets={setBudgets} />
+          <Stats budgets={budgets} setBudgets={setBudgets} income={income} setIncome={setIncome} />
         </div>
 
         <div className={styles.mainContent}>
