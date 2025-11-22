@@ -11,11 +11,13 @@ import toast from 'react-hot-toast';
 import ChatBox from '../../components/ChatBox/ChatBox.jsx';
 import { useBudget } from '../../backend/useBudget.jsx'
 import { useUser } from '../../backend/user/useUser.jsx' 
+import { useIncome } from '../../backend/useIncome.jsx';
 
-const Dashboard = ({ income, setIncome }) => {
+const Dashboard = () => {
   const navigate = useNavigate();
   const { user, signOut } = useUser(); // Get signOut from context
   const { budgets, setBudgets } = useBudget();
+  const { income } = useIncome();
 
   const handleLogoutClicked = async () => {
     const result = await signOut(); // Use signOut from context
@@ -40,7 +42,6 @@ const Dashboard = ({ income, setIncome }) => {
           <Stats 
             budgets={budgets} 
             income={income} 
-            setIncome={setIncome} 
           />
         </div>
 

@@ -17,8 +17,9 @@ import BudgetDetail from './pages/BudgetDetail/BudgetDetail'
 import IncomeDetail from './pages/Income/IncomeDetail'
 import { BudgetProvider } from './backend/useBudget.jsx'
 import { UserProvider, useUser } from './backend/user/useUser.jsx' // Add this
+import { IncomeProvider } from './backend/useIncome.jsx'
 
-const NavigationWrapper = ({ income, setIncome }) => {
+const NavigationWrapper = () => {
   const navigate = useNavigate();
   const { user } = useUser(); // Get user from context
 
@@ -30,39 +31,35 @@ const NavigationWrapper = ({ income, setIncome }) => {
 
   return (
     <BudgetProvider>
-      <Routes>
-        <Route 
-            path = "/" 
+      <IncomeProvider>
+        <Routes>
+          <Route 
+              path = "/" 
+              element = {
+                <Landing>  
+                </Landing>
+              }
+          ></Route>
+          <Route 
+            path = "/dashboard" 
             element = {
-              <Landing>  
-              </Landing>
+              <Dashboard></Dashboard>
             }
-        ></Route>
-        <Route 
-          path = "/dashboard" 
-          element = {
-            <Dashboard
-              income={income}
-              setIncome={setIncome}
-            ></Dashboard>
-          }
-        ></Route>
-        <Route
-          path="/budget/:budgetName"
-          element={
-            <BudgetDetail></BudgetDetail>
-          }
-        ></Route>
-        <Route
-          path="/income"
-          element={
-            <IncomeDetail
-              income={income}
-              setIncome={setIncome}
-            ></IncomeDetail>
-          }
-        ></Route>
-      </Routes>
+          ></Route>
+          <Route
+            path="/budget/:budgetName"
+            element={
+              <BudgetDetail></BudgetDetail>
+            }
+          ></Route>
+          <Route
+            path="/income"
+            element={
+              <IncomeDetail></IncomeDetail>
+            }
+          ></Route>
+        </Routes>
+      </IncomeProvider>
     </BudgetProvider>
   )
 }
@@ -79,7 +76,7 @@ const TestElement = () => {
 
 function App() {
   // Remove budgets and user state - now in contexts
-  const [income, setIncome] = useState({ balance: 0, transactions: [] });
+  // const [income, setIncome] = useState({ balance: 0, transactions: [] });
 
   // Remove the onAuthStateChanged useEffect - now in UserProvider
 
@@ -87,10 +84,7 @@ function App() {
     <>
       <Toaster position="top-center" reverseOrder={false} />
       <UserProvider>
-        <NavigationWrapper
-          income={income}
-          setIncome={setIncome}
-        />
+        <NavigationWrapper />
       </UserProvider>
       {/* <TestElement
         budgets = {budgets}

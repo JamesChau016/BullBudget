@@ -8,7 +8,7 @@ import ConfirmModal from '../../components/ConfirmModal/ConfirmModal'
 import { useBudget } from '../../backend/useBudget.jsx'
 
 const BudgetDetail = () => {
-  const { budgets, removeBudget } = useBudget(); // Get removeBudget from context
+  const { budgets, removeBudget, addTransaction } = useBudget(); // Get addTransaction
   const { budgetName } = useParams()
   const navigate = useNavigate()
   
@@ -61,60 +61,37 @@ const BudgetDetail = () => {
     }
   }
   
-  const handleTransaction = (e) => {
+  const handleTransaction = async (e) => {
     e.preventDefault()
     
-    const amountNum = parseFloat(amount)
-    
-    if (!amount || isNaN(amountNum) || amountNum <= 0) {
-      toast.error('Please enter a valid amount')
-      return
-    }
-    
-    if (transactionType === 'withdraw' && amountNum > budget.currentBalance) {
-      toast.error('Insufficient balance')
-      return
+    if (!budget || !budget.id) {
+      toast.error('Budget not found');
+      return;
     }
 
-    // Add to transaction history
-    const newTransaction = {
-      id: Date.now(),
+    const result = await addTransaction(budget.id, {
       type: transactionType,
-      amount: amountNum,
-      budgetName: budgetName,  
-      description: description || (transactionType === 'add' ? 'Deposit' : 'Withdrawal'),
-      date: date ? new Date(date).toISOString() : new Date().toISOString(),
-      repeat: repeat || 'none'
+      amount: amount,
+      description: description,
+      date: date,
+      repeat: repeat
+    });
+
+    if (result.success) {
+      // reset form
+      setAmount('')
+      setDescription('')
+      setDate(new Date().toISOString().slice(0,10))
+      setRepeat('none')
+      
+      toast.success(
+        transactionType === 'add' 
+          ? `Added $${result.transaction.amount} to ${budgetName}` 
+          : `Withdrew $${result.transaction.amount} from ${budgetName}`
+      )
+    } else {
+      toast.error(result.error || 'Failed to add transaction');
     }
-
-    const updatedBudgets = budgets.map(b => {
-      if (b.name === budgetName) {
-        const existingTransactions = Array.isArray(b.transactions) ? b.transactions : []
-        return {
-          ...b,
-          currentBalance: transactionType === 'add' ? b.currentBalance + amountNum : b.currentBalance - amountNum,
-          transactions: [newTransaction, ...existingTransactions]
-        }
-      }
-      return b
-    })
-
-    setBudgets(updatedBudgets)
-    if (transactionType === 'withdraw') {
-      setTransactions([newTransaction, ...transactions])
-    }
-
-    // reset form
-    setAmount('')
-    setDescription('')
-    setDate(new Date().toISOString().slice(0,10))
-    setRepeat('none')
-    
-    toast.success(
-      transactionType === 'add' 
-        ? `Added $${amountNum} to ${budgetName}` 
-        : `Withdrew $${amountNum} from ${budgetName}`
-    )
   }
   
   return (
@@ -240,14 +217,14 @@ const BudgetDetail = () => {
           <div className={styles['history-section']}>
             <h2 className={styles['section-title']}>Transaction History</h2>
             
-            {(!(budget.transactions && budget.transactions.length)) ? (
+            {(!(budget.transactionList && budget.transactionList.length)) ? (
               <div className={styles['empty-state']}>
                 <p>No transactions yet</p>
                 <p className={styles['empty-hint']}>Add your first transaction to get started</p>
               </div>
             ) : (
               <div className={styles['transaction-list']}>
-                {(budget.transactions || []).map((transaction) => (
+                {(budget.transactionList || []).map((transaction) => (
                   <div
                     key={transaction.id}
                     className={`${styles['transaction-item']} ${

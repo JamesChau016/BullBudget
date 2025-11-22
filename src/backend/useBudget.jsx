@@ -86,6 +86,64 @@ export const BudgetProvider = ({ children }) => {
         }
     };
 
+    const addTransaction = async (budgetId, transactionData) => {
+        try {
+            // Find the budget
+            const budget = budgets.find(b => b.id === budgetId);
+            if (!budget) {
+                return { success: false, error: 'Budget not found' };
+            }
+
+            const amountNum = parseFloat(transactionData.amount);
+            
+            // Validate amount
+            if (!transactionData.amount || isNaN(amountNum) || amountNum <= 0) {
+                return { success: false, error: 'Please enter a valid amount' };
+            }
+
+            // Check sufficient balance for withdrawals
+            if (transactionData.type === 'withdraw' && amountNum > budget.currentBalance) {
+                return { success: false, error: 'Insufficient balance' };
+            }
+
+            // Create new transaction
+            const newTransaction = {
+                id: Date.now().toString(),
+                type: transactionData.type, // 'add' or 'withdraw'
+                amount: amountNum,
+                budgetId: budgetId,
+                budgetName: budget.name,
+                description: transactionData.description || (transactionData.type === 'add' ? 'Deposit' : 'Withdrawal'),
+                date: transactionData.date ? new Date(transactionData.date).toISOString() : new Date().toISOString(),
+                repeat: transactionData.repeat || 'none'
+            };
+
+            // Update budget
+            const existingTransactions = Array.isArray(budget.transactionList) ? budget.transactionList : [];
+            const updatedBudget = {
+                ...budget,
+                currentBalance: transactionData.type === 'add' 
+                    ? budget.currentBalance + amountNum 
+                    : budget.currentBalance - amountNum,
+                transactionList: [newTransaction, ...existingTransactions],
+                updatedAt: new Date()
+            };
+
+            // Save to Firestore
+            await setDoc(doc(db, "budgets", budgetId), updatedBudget);
+            
+            // Update local state
+            setBudgets(prev => prev.map(b => 
+                b.id === budgetId ? updatedBudget : b
+            ));
+            
+            return { success: true, transaction: newTransaction, budget: updatedBudget };
+        } catch (error) {
+            console.error("Error adding transaction:", error);
+            return { success: false, error };
+        }
+    };
+
     // Load budgets when userId changes
     useEffect(() => {
         if (!userId) {
@@ -129,6 +187,7 @@ export const BudgetProvider = ({ children }) => {
         getUserBudgets,
         addBudget,
         removeBudget,
+        addTransaction,
     };
 
     return (
