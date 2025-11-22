@@ -1,30 +1,55 @@
-<<<<<<< HEAD
-import styles from './Signup.module.css'
-
-const Signup = () => {
-
-}
-
-=======
 import { useAuthModalState } from '../../AuthModalStateContext';
 import toast from 'react-hot-toast'
 import styles from './Signup.module.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import {createUserWithEmailAndPassword, onAuthStateChanged} from "firebase/auth";
+import { auth } from "../../../../firebase/firebase.js";
+import { useNavigate } from 'react-router-dom';
 
 function Signup({  }) {
     const { AuthModalState, setAuthModalState } = useAuthModalState();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordRe, setPasswordRe] = useState('');
+    const navigate = useNavigate();
 
-    const handleSignup = (e) => {
+    const showSignupError = (error) => {
+        if (error.code === 'auth/email-already-in-use') {
+            toast.error('This email is already in use. Please log in instead.');
+        } else if (error.code === 'auth/weak-password') {
+            toast.error('Password is short (minimum 6 characters).');
+        }
+    }
+
+    const handleSignup = async (e) => {
         e.preventDefault();
         if (!email.trim() || !password.trim()) {
             toast.error('Please fill in all fields');
             return;
         }
-        setLoggedIn(true);
-        toast.success('Logged in successfully!');   
+        else if (password !== passwordRe) {
+            toast.error('Passwords do not match. Please try again.');
+            return;
+        }
+        try{
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            console.log(userCredential.user);  
+        }
+        catch(error){
+            showSignupError(error);
+            return;
+        }
+        
     }
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            navigate('/dashboard');
+            toast.success('Sign In successful! Welcome to BullBudget.');
+        } else {
+            console.log('No user is signed in.');
+        }
+    });
 
     const handleChangeAuthModalState = (target) => {
         setAuthModalState(target)
@@ -57,6 +82,16 @@ function Signup({  }) {
                         aria-label="Password"
                     />
                 </div>
+                <div className={styles['form-group']}>
+                    <input 
+                        type="password" 
+                        className={styles['input-field']}
+                        placeholder="Enter your password again" 
+                        value={passwordRe}
+                        onChange={(e) => setPasswordRe(e.target.value)}
+                        aria-label="Enter your password again"
+                    />
+                </div>
                 <div className={styles['button-group']}>
                     <button type='submit' className={`${styles.btn} ${styles['btn-primary']}`}>Sign Up</button>
                 </div>
@@ -77,5 +112,3 @@ function Signup({  }) {
 }
 
 export default Signup
-
->>>>>>> a7ebee62f29bd190468cb5c71f8aec18ed5256db
