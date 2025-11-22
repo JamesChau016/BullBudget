@@ -19,8 +19,7 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
   const [date, setDate] = useState(() => new Date().toISOString().slice(0,10))
   const [repeat, setRepeat] = useState('none')
   
-  // State cho transaction history 
-  const [transactions, setTransactions] = useState([])
+  // Transaction history is stored on the budget object so it's shared globally
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   
   if (!budget) {
@@ -65,22 +64,7 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
       return
     }
     
-    // Update balance
-    const updatedBudgets = budgets.map(b => {
-      if (b.name === budgetName) {
-        return {
-          ...b,
-          balance: transactionType === 'add' 
-            ? b.balance + amountNum 
-            : b.balance - amountNum
-        }
-      }
-      return b
-    })
-    
-    setBudgets(updatedBudgets)
-    
-    // Add to transaction history
+    // Update balance and attach transaction to the specific budget's transactions array
     const newTransaction = {
       id: Date.now(),
       type: transactionType,
@@ -90,8 +74,21 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
       repeat: repeat || 'none'
     }
 
-    setTransactions([newTransaction, ...transactions])
+    const updatedBudgets = budgets.map(b => {
+      if (b.name === budgetName) {
+        const existingTransactions = Array.isArray(b.transactions) ? b.transactions : []
+        return {
+          ...b,
+          balance: transactionType === 'add' ? b.balance + amountNum : b.balance - amountNum,
+          transactions: [newTransaction, ...existingTransactions]
+        }
+      }
+      return b
+    })
 
+    setBudgets(updatedBudgets)
+
+    // reset form
     setAmount('')
     setDescription('')
     setDate(new Date().toISOString().slice(0,10))
@@ -227,14 +224,14 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
           <div className={styles['history-section']}>
             <h2 className={styles['section-title']}>Transaction History</h2>
             
-            {transactions.length === 0 ? (
+            {(!(budget.transactions && budget.transactions.length)) ? (
               <div className={styles['empty-state']}>
                 <p>No transactions yet</p>
                 <p className={styles['empty-hint']}>Add your first transaction to get started</p>
               </div>
             ) : (
               <div className={styles['transaction-list']}>
-                {transactions.map((transaction) => (
+                {(budget.transactions || []).map((transaction) => (
                   <div
                     key={transaction.id}
                     className={`${styles['transaction-item']} ${
@@ -248,7 +245,7 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
                         {transaction.description}
                       </div>
                       <div className={styles['transaction-date']}>
-                        {transaction.date ? new Date(transaction.date).toLocaleString() : ''}
+                        {transaction.date ? new Date(transaction.date).toLocaleDateString() : ''}
                       </div>
                       {transaction.repeat && transaction.repeat !== 'none' && (
                         <div className={styles['transaction-repeat']}>
