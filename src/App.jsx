@@ -69,6 +69,7 @@ const NavigationWrapper = ({ income, setIncome }) => {
 
 const TestElement = () => {
   const [budgets, setBudgets] = useState(initialBudgets);
+  const [transactions, setTransactions] = useState([]);
   return (
       <>
         <AuthModal></AuthModal>

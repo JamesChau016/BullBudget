@@ -71,6 +71,7 @@ const BudgetDetail = () => {
       id: Date.now(),
       type: transactionType,
       amount: amountNum,
+      budgetName: budgetName,  
       description: description || (transactionType === 'add' ? 'Deposit' : 'Withdrawal'),
       date: date ? new Date(date).toISOString() : new Date().toISOString(),
       repeat: repeat || 'none'
@@ -89,6 +90,9 @@ const BudgetDetail = () => {
     })
 
     setBudgets(updatedBudgets)
+    if (transactionType === 'withdraw') {
+      setTransactions([newTransaction, ...transactions])
+    }
 
     // reset form
     setAmount('')
