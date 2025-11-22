@@ -3,10 +3,11 @@ import styles from './Dashboard.module.css';
 import Welcome from './Welcome/Welcome';
 import TransactionHistory from './TransactionHistory/TransactionHistory';
 import Stats from './Stats/Stats';
-import BudgetList from '../../components/BudgetList/BudgetList';
+//import BudgetList from '../../components/BudgetList/BudgetList';
 import Header from '../../components/Header/Header';
 import NavigationButton from '../../components/NavigationButton/NavigationButton.jsx';
 import { useNavigate } from 'react-router-dom';
+import Jars from '../../components/Jars/Jars';
 
 
 
@@ -37,7 +38,7 @@ const Dashboard = ({ budgets, setBudgets }) => {
         </div>
 
         <div className={styles.mainContent}>
-          <BudgetList budgets={budgets} setBudgets={setBudgets} />
+          <Jars budgets={budgets} setBudgets={setBudgets} />
           <TransactionHistory budgets={budgets} />
         </div>
       </main>

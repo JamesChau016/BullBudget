@@ -1,56 +1,90 @@
-#page-title {
-    font-size: 5rem;
-    text-align: center;
-    color: hsl(120, 97%, 13%);
+.jars-header {
+  margin-left: 25%;
+  margin-right: auto;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-#add-jars {
-    margin: 20px auto;
-    padding: 10px;
-    font-size: 1.5rem;
-    border: #c0ffc1 2px solid;
-    box-shadow: 2px 2px 12px hsla(0, 1%, 19%, 0.71);
-    border-radius: 5px;
-    width: 200px;
+.jar-balance {
+  margin: 0.75rem 0 0 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0d8e7e;
+  text-align: center;
 }
-#add-jars:focus {
-    outline: none;
-    border-color: hsl(120, 97%, 30%);
-    box-shadow: 0 0 5px hsl(120, 97%, 30%);
+
+.jars-title {
+  margin: 0 0 1rem 0;
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #0d8e7e;
+  text-align: center;
 }
-#add-jar-button {
-    padding: 10px 20px;
-    font-size: 1.5rem;
-    background-color: hsla(120, 100%, 30%, 0.897);
-    color: rgb(255, 231, 97);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 2px 2px 12px hsla(0, 1%, 19%, 0.71);
-    margin-left:20px;
-    float: right;
+
+.add-jar-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
 }
-#add-jar-button:hover {
-    background-color: hsla(120, 100%, 40%, 0.897);
+
+.add-jar-form input {
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.6rem;
+  border: 1px solid rgba(13, 142, 126, 0.15);
+  min-width: 220px;
+  font-size: 1rem;
+  background: #ffffff;
+  color: #333;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-#add-jar-button:active {
-    transform: scale(0.9);
-    background-color: hsla(120, 100%, 50%, 0.897);
+
+.add-jar-form input:focus {
+  outline: none;
+  border-color: rgba(13, 142, 126, 0.35);
+  box-shadow: 0 0 0 3px rgba(13, 142, 126, 0.1);
+}
+
+.add-jar-button {
+  padding: 0.65rem 1.1rem;
+  border-radius: 0.6rem;
+  border: none;
+  background: linear-gradient(135deg, #0d8e7e 0%, #0a6e5a 100%);
+  color: #ffd166;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(13, 142, 126, 0.15);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.add-jar-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(13, 142, 126, 0.2);
+}
+
+.add-jar-button:active {
+  transform: translateY(0px);
+  box-shadow: 0 2px 8px rgba(13, 142, 126, 0.12);
 }
 .jars-container{
     font-size: 1.5rem;
     display: grid;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 1rem 0;
 }
 .jar {
   margin: 0 auto;
-  margin-top:20px;
-  width: 200px;
-  height: 220px;
-  border: 2px solid rgba(191,242,192,0.9);
+  margin-top: 20px;
+  width: 100%;
+  max-width: 280px;
+  height: 260px;
+  border: 2px solid rgba(13, 142, 126, 0.3);
   border-radius: 40px 40px 20px 20px;
   box-shadow: 0 12px 24px rgba(0,0,0,0.12), inset 0 -18px 30px rgba(0,0,0,0.04);
   padding: 18px 16px 14px 16px;
