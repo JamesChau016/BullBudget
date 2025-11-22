@@ -280,6 +280,8 @@
   font-family: inherit;
   max-height: 100px;
   transition: border-color 0.2s;
+  background-color: #ffffff;  
+  color: #000000;              
 }
 
 .input:focus {
