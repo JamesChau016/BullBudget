@@ -3,11 +3,7 @@ import toast from 'react-hot-toast'
 import styles from './Login.module.css'
 import { useAuthModalState } from '../../AuthModalStateContext';
 import { auth } from "../../../../firebase/firebase.js";
-import { onAuthStateChanged, 
-    signInWithEmailAndPassword, 
-    createUserWithEmailAndPassword, 
-    signOut } from "firebase/auth"; 
-
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 
 function Login({ setLoggedIn }) {
@@ -17,15 +13,15 @@ function Login({ setLoggedIn }) {
 
     const showLoginError = (error) => {
         if (error.code === 'auth/user-not-found') {
-            toast.error('No user found with this email.');
+            toast.error('No user found with this email. Please sign up first.');
         } else if (error.code === 'auth/wrong-password') {
             toast.error('Incorrect password. Please try again.');
-        } else {
-            toast.error('Login failed: ' + error.message);
+        } else if (error.code === 'auth/invalid-email') {
+            toast.error('Please enter a valid email address.');
         }
     }
 
-     const handleLogin = async(e) => {
+    const handleLogin = async(e) => {
         e.preventDefault();
         if (!email.trim() || !password.trim()) {
             toast.error('Please fill in all fields');
@@ -33,14 +29,14 @@ function Login({ setLoggedIn }) {
         }
         try{
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            console.log(userCredential.user);   
+            console.log(userCredential.user);
+            toast.success('Login successful! Welcome back to BullBudget.');
         }
         catch(error){
             console.log(error);
             showLoginError(error);
             return;
         }
-        
     }
 
     const handleChangeAuthModalState = (target) => {

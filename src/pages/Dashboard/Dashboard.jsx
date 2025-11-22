@@ -8,7 +8,9 @@ import Header from '../../components/Header/Header';
 import NavigationButton from '../../components/NavigationButton/NavigationButton.jsx';
 import { useNavigate } from 'react-router-dom';
 import Jars from '../../components/Jars/Jars';
-
+import { auth } from "../../firebase/firebase.js";
+import {signOut} from "firebase/auth";
+import toast from 'react-hot-toast';
 
 
 
@@ -16,8 +18,10 @@ import Jars from '../../components/Jars/Jars';
 const Dashboard = ({ budgets, setBudgets }) => {
   const navigate = useNavigate();
 
-  const handleLogoutClicked = () => {
+  const handleLogoutClicked = async () => {
+    await signOut(auth);
     navigate('/');
+    toast.success('Logout successful! See you next time.');
   }
   return (
     <>
