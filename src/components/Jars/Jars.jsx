@@ -1,12 +1,14 @@
 import React,{ useState } from 'react'
 import toast from 'react-hot-toast'
 import styles from './Jars.module.css'
+import { useNavigate } from 'react-router-dom'
 
 //từ đây đổi tên thành component để chứa các Budgets
 
 
 //sửa một vài tham số để đồng bộ với App.jsx với Dashboard.jsx
 function Jars({ budgets, setBudgets }) {
+  const navigate = useNavigate()
   const [expandedJar, setExpandedJar] = useState(null);
   const [jarColors, setJarColors] = useState(
     budgets.map(() => 'hsla(0, 0%, 93%, 1.00)'));
@@ -72,28 +74,13 @@ function Jars({ budgets, setBudgets }) {
     <div className={styles['jars-container']}>
       {budgets.map((budget, index) => (
         <div 
-          onClick={() => expandedJar === null && expandJar(index)} 
+          onClick={() => navigate(`/budget/${budget.name}`)}  
           key={budget.id}
-          className={`${styles.jar} ${expandedJar === index ? styles.expanded : ''}`}
+          className={styles.jar}
           style={{backgroundColor: jarColors[index]}}
         >
           <h2 id={styles['jar-label']}>{budget.name}</h2>
           <p className={styles['jar-balance']}>${budget.balance.toLocaleString()}</p>
-
-          {expandedJar === index && (
-            <>
-              <div className={styles['jar-color-controls']}>
-                <input type='color' id={styles['jar-color-picker']}  />
-                <button id={styles['change-jar-color']} onClick={() => changeJarColor(index)}>Change Color</button>
-              </div>
-              <div className={styles['jar-details']}>
-                <div className={styles['jar-details-buttons']}>
-                  <button id={styles['close-jar']} onClick={(e) => {e.stopPropagation(); expandJar(index);}}>Close</button>
-                  <button id={styles['remove-jar']} onClick={(e) => {e.stopPropagation(); removeJar();}}>Remove Jar</button>
-                </div>
-              </div>
-            </>
-          )}
         </div>
       ))}
     </div>
