@@ -3,21 +3,30 @@ import toast from 'react-hot-toast'
 import styles from './Jars.module.css'
 import { useNavigate } from 'react-router-dom'
 import { useBudget } from '../../backend/useBudget.jsx'
+import { useUser } from '../../backend/user/useUser.jsx'
 
-function Jars({ budgets, depth, onBudgetUpdate }) {
+function Jars({ budgets, depth, parentId }) {
   const navigate = useNavigate()
-  const { addBudget } = useBudget() 
+  const { addBudget } = useBudget()
+  const { userId } = useUser()
+
+  // Filter budgets based on parentId
+  // If parentId is undefined/null, show top-level budgets (parentId === '')
+  const filteredBudgets = budgets.filter(budget => {
+    const budgetParentId = budget.parentId || '';
+    const targetParentId = parentId !== undefined ? parentId : '';
+    return budgetParentId === targetParentId;
+  });
 
   const addJar = async () => {
     const jarName = document.getElementById('add-jars-input').value.trim();
-    const userId = getUserId(); // Now this will work
     
     if (!userId) {
       toast.error('You must be logged in to create a budget');
       return;
     }
 
-    // Check if name already exists
+    // Check if name already exists in ALL budgets (not just filtered)
     const nameExists = budgets.some(b => b.name === jarName);
     
     if (jarName === "") {
@@ -30,69 +39,56 @@ function Jars({ budgets, depth, onBudgetUpdate }) {
       return;
     }
 
-  
-
     try {
       const result = await addBudget({
         ownerId: userId,
         name: jarName,
         currentBalance: 0,
-        depth: depth + 1,
-        // Other fields will use defaults:
-        // type: 'personal'
-        // subBudgets: []
-        // transactionList: []
-        // depth: 0
-        // parentId: ''
+        depth: depth !== undefined ? depth + 1 : 0,
+        parentId: parentId !== undefined ? parentId : '', // Set parentId based on prop
       });
 
       if (result.success) {
         toast.success(`Budget "${jarName}" added successfully!`);
         document.getElementById('add-jars-input').value = '';
-        
-        // Refresh the budgets list
-        if (onBudgetUpdate) {
-          await onBudgetUpdate();
-        }
       } else {
         toast.error('Failed to create budget');
       }
     } catch (error) {
       console.error('Error adding budget:', error);
       toast.error('Error creating budget');
-    } finally {
     }
   }
 
- return (
-  <>
-    <div className={styles['jars-header']}>
-      <h2 className={styles['jars-title']}>YOUR BUDGETS</h2>
-      <div className={styles['add-jar-form']}>
-        <input 
-          type='text' 
-          id='add-jars-input' 
-          placeholder='New budget name' 
-          required
-        />
-        <button onClick={addJar} className={styles['add-jar-button']}>Add</button>
-      </div>
-    </div>
-    
-    <div className={styles['jars-container']}>
-      {budgets.map((budget, index) => (
-        <div 
-          onClick={() => navigate(`/budget/${budget.name}`)}  
-          key={budget.id}
-          className={styles.jar}
-        >
-          <h2 className={styles['jar-label']}>{budget.name}</h2>
-          <p className={styles['jar-balance']}>${budget.currentBalance.toLocaleString()}</p>
+  return (
+    <>
+      <div className={styles['jars-header']}>
+        <h2 className={styles['jars-title']}>YOUR BUDGETS</h2>
+        <div className={styles['add-jar-form']}>
+          <input 
+            type='text' 
+            id='add-jars-input' 
+            placeholder='New budget name' 
+            required
+          />
+          <button onClick={addJar} className={styles['add-jar-button']}>Add</button>
         </div>
-      ))}
-    </div>
-  </>
-)
+      </div>
+      
+      <div className={styles['jars-container']}>
+        {filteredBudgets.map((budget, index) => (
+          <div 
+            onClick={() => navigate(`/budget/${budget.name}`)}  
+            key={budget.id}
+            className={styles.jar}
+          >
+            <h2 className={styles['jar-label']}>{budget.name}</h2>
+            <p className={styles['jar-balance']}>${budget.currentBalance.toLocaleString()}</p>
+          </div>
+        ))}
+      </div>
+    </>
+  )
 }
 
 export default Jars

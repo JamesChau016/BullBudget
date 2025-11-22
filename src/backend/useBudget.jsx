@@ -3,16 +3,22 @@ import {
     collection,
     query,
     where,
-    getDocs
+    getDocs,
+    doc,
+    setDoc
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { useUser } from "./user/useUser.jsx";
 
 const BudgetContext = createContext(null);
 
+const generateId = () => {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2);
+};
+
 export const BudgetProvider = ({ children }) => {
     const [budgets, setBudgets] = useState([]);
-    const { userId, signupComplete } = useUser(); // Get signupComplete flag
+    const { userId, signupComplete } = useUser();
 
     const getUserBudgets = async (userId) => {
         try {
@@ -31,6 +37,35 @@ export const BudgetProvider = ({ children }) => {
             return { success: true, budgets };
         } catch (error) {
             console.error("Error getting user budgets:", error);
+            return { success: false, error };
+        }
+    };
+
+    const addBudget = async (budgetData) => {
+        try {
+            const budgetId = generateId();
+            const newBudget = {
+                id: budgetId,
+                ownerId: budgetData.ownerId,
+                type: budgetData.type || 'personal',
+                name: budgetData.name,
+                currentBalance: budgetData.currentBalance || 0,
+                subBudgets: budgetData.subBudgets || [],
+                transactionList: budgetData.transactionList || [],
+                depth: budgetData.depth || 0,
+                parentId: budgetData.parentId || '',
+                createdAt: new Date(),
+                updatedAt: new Date()
+            };
+
+            await setDoc(doc(db, "budgets", budgetId), newBudget);
+            
+            // Update local state
+            setBudgets(prev => [...prev, newBudget]);
+            
+            return { success: true, budget: newBudget };
+        } catch (error) {
+            console.error("Error creating budget:", error);
             return { success: false, error };
         }
     };
@@ -70,12 +105,13 @@ export const BudgetProvider = ({ children }) => {
         };
 
         loadBudgets();
-    }, [userId, signupComplete]); // Add signupComplete to dependencies
+    }, [userId, signupComplete]);
 
     const value = {
         budgets,
         setBudgets,
         getUserBudgets,
+        addBudget,
     };
 
     return (
