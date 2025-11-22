@@ -114,8 +114,6 @@
     box-shadow: 0 2px 8px rgba(13, 142, 126, 0.08);
 }
 
-<<<<<<< HEAD
-=======
 .redirect-text {
     margin: .75rem 0 0 0;
     font-size: 0.95rem;
@@ -142,7 +140,6 @@
     color: #085a4a;
 }
 
->>>>>>> a7ebee62f29bd190468cb5c71f8aec18ed5256db
 /* Responsive Design */
 @media (max-width: 480px) {
   .login-page {

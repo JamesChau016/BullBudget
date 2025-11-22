@@ -4,24 +4,23 @@ import styles from './Login.module.css'
 import { useAuthModalState } from '../../AuthModalStateContext';
 import { auth } from "../../../../firebase/firebase.js";
 import { onAuthStateChanged, 
-    signInWithEmailAndPassword, 
-    createUserWithEmailAndPassword, 
-    signOut } from "firebase/auth"; 
-
+    signInWithEmailAndPassword } from "firebase/auth"; 
+import { useNavigate } from 'react-router-dom';
 
 
 function Login({ setLoggedIn }) {
     const { AuthModalState, setAuthModalState } = useAuthModalState();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const showLoginError = (error) => {
         if (error.code === 'auth/user-not-found') {
-            toast.error('No user found with this email.');
+            toast.error('No user found with this email. Please sign up first.');
         } else if (error.code === 'auth/wrong-password') {
             toast.error('Incorrect password. Please try again.');
-        } else {
-            toast.error('Login failed: ' + error.message);
+        } else if (error.code === 'auth/invalid-email') {
+            toast.error('Please enter a valid email address.');
         }
     }
 
@@ -42,6 +41,15 @@ function Login({ setLoggedIn }) {
         }
         
     }
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            navigate('/dashboard');
+            toast.success('Login successful! Welcome back to BullBudget.');
+        } else {
+            console.log('No user is signed in.');
+        }
+    });
 
     const handleChangeAuthModalState = (target) => {
         setAuthModalState(target)
