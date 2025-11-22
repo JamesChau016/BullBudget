@@ -3,16 +3,13 @@ import toast from 'react-hot-toast'
 import styles from './Login.module.css'
 import { useAuthModalState } from '../../AuthModalStateContext';
 import { auth } from "../../../../firebase/firebase.js";
-import { onAuthStateChanged, 
-    signInWithEmailAndPassword } from "firebase/auth"; 
-import { useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 
 function Login({ setLoggedIn }) {
     const { AuthModalState, setAuthModalState } = useAuthModalState();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate();
 
     const showLoginError = (error) => {
         if (error.code === 'auth/user-not-found') {
@@ -24,7 +21,7 @@ function Login({ setLoggedIn }) {
         }
     }
 
-     const handleLogin = async(e) => {
+    const handleLogin = async(e) => {
         e.preventDefault();
         if (!email.trim() || !password.trim()) {
             toast.error('Please fill in all fields');
@@ -32,24 +29,15 @@ function Login({ setLoggedIn }) {
         }
         try{
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            console.log(userCredential.user);   
+            console.log(userCredential.user);
+            toast.success('Login successful! Welcome back to BullBudget.');
         }
         catch(error){
             console.log(error);
             showLoginError(error);
             return;
         }
-        
     }
-
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            navigate('/dashboard');
-            toast.success('Login successful! Welcome back to BullBudget.');
-        } else {
-            console.log('No user is signed in.');
-        }
-    });
 
     const handleChangeAuthModalState = (target) => {
         setAuthModalState(target)
