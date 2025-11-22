@@ -15,8 +15,8 @@ import BudgetDetail from './pages/BudgetDetail/BudgetDetail'
 const NavigationWrapper = ({ budgets, setBudgets }) => {
   const navigate = useNavigate();
 
-  useEffect( () => {
-    navigate("/");
+  useEffect(() => {
+    navigate("/dashboard");
   }, [])
 
   return (

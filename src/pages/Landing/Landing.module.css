@@ -1,18 +1,17 @@
 .container {
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+    display: block;
+    height: 100vh;
+    position: relative;
+    overflow: visible;
 }
 
 .content-container {
     margin: 0;
     padding: 0;
-    flex: 1;
 }
 
 .container .navigation-button {
     padding: .5rem 1rem;
-    height: auto; 
 }

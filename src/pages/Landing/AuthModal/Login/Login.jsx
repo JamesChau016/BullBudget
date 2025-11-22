@@ -11,7 +11,7 @@ import { onAuthStateChanged,
 
 
 function Login({ setLoggedIn }) {
-    const { AuthModalState, setAuthModalState } = useAuthModalState();
+    const { setAuthModalState } = useAuthModalState();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 

@@ -6,7 +6,7 @@ import Stats from './Stats/Stats';
 import BudgetList from '../../components/BudgetList/BudgetList';
 import Header from '../../components/Header/Header';
 import NavigationButton from '../../components/NavigationButton/NavigationButton.jsx';
-
+import { useNavigate } from 'react-router-dom';
 
 
 
