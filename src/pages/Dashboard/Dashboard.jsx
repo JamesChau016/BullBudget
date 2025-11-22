@@ -17,7 +17,7 @@ import ChatBox from '../../components/ChatBox/ChatBox.jsx';
 
 
 
-const Dashboard = ({ budgets, setBudgets, income, setIncome  }) => {
+const Dashboard = ({ budgets, setBudgets, income, setIncome, transactions, setTransactions  }) => {
   const navigate = useNavigate();
 
   const handleLogoutClicked = async () => {
@@ -45,7 +45,7 @@ const Dashboard = ({ budgets, setBudgets, income, setIncome  }) => {
 
         <div className={styles.mainContent}>
           <Jars budgets={budgets} setBudgets={setBudgets} />
-          <TransactionHistory budgets={budgets} />
+          <TransactionHistory budgets={budgets} transactions={transactions} />
         </div>
       </main>
       <ChatBox />

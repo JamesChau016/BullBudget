@@ -41,6 +41,8 @@ const NavigationWrapper = ({ budgets, setBudgets, user, income, setIncome }) => 
             setBudgets = {setBudgets}
             income={income}
             setIncome={setIncome}
+            transactions={transactions}
+            setTransactions={setTransactions}
           ></Dashboard>
         }
       ></Route>
@@ -50,6 +52,8 @@ const NavigationWrapper = ({ budgets, setBudgets, user, income, setIncome }) => 
           <BudgetDetail
             budgets={budgets}
             setBudgets={setBudgets}
+            transactions={transactions}
+            setTransactions={setTransactions} 
           ></BudgetDetail>
         }
       ></Route>
@@ -68,6 +72,7 @@ const NavigationWrapper = ({ budgets, setBudgets, user, income, setIncome }) => 
 
 const TestElement = () => {
   const [budgets, setBudgets] = useState(initialBudgets);
+  const [transactions, setTransactions] = useState([]);
   return (
       <>
         <AuthModal></AuthModal>

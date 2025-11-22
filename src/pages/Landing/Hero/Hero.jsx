@@ -22,7 +22,7 @@ const Hero = () => {
                 <h1
                     className = {`${styles['hero-headline']}`}
                 >
-                    Your all-in-one budget manager
+                    You all-in-one budget manager for USF students.
                 </h1>
                 <h3
                     className = {`${styles['hero-subheadline']}`}
