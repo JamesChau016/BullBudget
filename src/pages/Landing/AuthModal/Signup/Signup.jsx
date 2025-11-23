@@ -2,45 +2,25 @@ import { useAuthModalState } from '../../AuthModalStateContext';
 import toast from 'react-hot-toast'
 import styles from './Signup.module.css'
 import { useState } from 'react';
-import {createUserWithEmailAndPassword} from "firebase/auth";
-import { auth } from "../../../../firebase/firebase.js";
+import { useUser } from '../../../../backend/user/useUser.jsx';
+import { useNavigate } from 'react-router-dom';
 
 function Signup({  }) {
     const { AuthModalState, setAuthModalState } = useAuthModalState();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordRe, setPasswordRe] = useState('');
-
-    const showSignupError = (error) => {
-        if (error.code === 'auth/email-already-in-use') {
-            toast.error('This email is already in use. Please log in instead.');
-        } else if (error.code === 'auth/weak-password') {
-            toast.error('Password is short (minimum 6 characters).');
-        }
-    }
-
+    const navigate = useNavigate();
+    const { signUp, loading } = useUser();
 
     const handleSignup = async (e) => {
         e.preventDefault();
-        if (!email.trim() || !password.trim()) {
-            toast.error('Please fill in all fields');
-            return;
-        }
-        else if (password !== passwordRe) {
-            toast.error('Passwords do not match. Please try again.');
-            return;
-        }
-        try{
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            console.log(userCredential.user);
-            toast.success('Sign Up successful! Welcome to BullBudget.');
-        }
-        catch(error){
-            showSignupError(error);
-            return;
+        const result = await signUp(email, password, passwordRe);
+        
+        if (result.success) {
+            navigate("/dashboard");
         }
     }
-    
 
     const handleChangeAuthModalState = (target) => {
         setAuthModalState(target)

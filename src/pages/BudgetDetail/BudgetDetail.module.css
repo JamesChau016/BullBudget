@@ -23,6 +23,7 @@
   font-weight: 800;
   color: #0d8e7e;
   line-height: 1.2;
+  text-align: center;
 }
 
 .budget-balance {
@@ -35,15 +36,17 @@
 .balance-label {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #0f6e5a;
-  opacity: 0.8;
+  color: #075e4a; /* darker green */
+  opacity: 0.95;
+  text-align: center;
 }
 
 .balance-amount {
   font-size: 2.5rem;
   font-weight: 800;
-  color: #0d8e7e;
+  color: #075e4a; /* darker green */
   letter-spacing: -0.5px;
+  text-align: center;
 }
 
 .content {
@@ -104,6 +107,11 @@
   background: #ffffff;
   color: #333;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.transaction-form select.input-field,
+.transaction-form input[type="date"].input-field {
+  cursor: pointer;
 }
 
 .input-field::placeholder {
@@ -267,6 +275,14 @@
   opacity: 0.8;
 }
 
+.transaction-repeat {
+  margin-top: 4px;
+  font-size: 0.9rem;
+  color: #075e4a; /* dark green matching other labels */
+  opacity: 0.95;
+  font-style: italic;
+}
+
 .transaction-amount {
   font-size: 1.25rem;
   font-weight: 800;
@@ -345,4 +361,21 @@
 .back-button:active {
   transform: translateY(0px);
   box-shadow: 0 2px 6px rgba(13, 142, 126, 0.12);
+}
+
+.remove-button {
+  padding: 12px 24px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  margin-left: 10px;
+}
+
+.remove-button:hover {
+  background-color: #c82333;
 }
