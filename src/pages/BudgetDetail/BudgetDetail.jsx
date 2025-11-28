@@ -5,8 +5,10 @@ import toast from 'react-hot-toast'
 import Header from '../../components/Header/Header'
 import NavigationButton from '../../components/NavigationButton/NavigationButton'
 import ConfirmModal from '../../components/ConfirmModal/ConfirmModal'
+import { useBudget } from '../../backend/useBudget.jsx'
 
-const BudgetDetail = ({ budgets, setBudgets }) => {
+const BudgetDetail = () => {
+  const { budgets, removeBudget, addTransaction } = useBudget(); // Get addTransaction
   const { budgetName } = useParams()
   const navigate = useNavigate()
   
@@ -41,64 +43,55 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
     setShowDeleteConfirm(true)
   }
 
-  const handleConfirmDelete = () => {
-    const updatedBudgets = budgets.filter(b => b.name !== budgetName)
-    setBudgets(updatedBudgets)
-    toast.success(`Budget "${budgetName}" removed successfully`)
-    setShowDeleteConfirm(false)
-    navigate('/dashboard')
+  const handleConfirmDelete = async () => {
+    if (!budget || !budget.id) {
+      toast.error('Budget not found');
+      return;
+    }
+
+    const result = await removeBudget(budget.id);
+    
+    if (result.success) {
+      toast.success(`Budget "${budgetName}" removed successfully`);
+      setShowDeleteConfirm(false);
+      navigate('/dashboard');
+    } else {
+      toast.error('Failed to delete budget');
+      setShowDeleteConfirm(false);
+    }
   }
   
-  const handleTransaction = (e) => {
+  const handleTransaction = async (e) => {
     e.preventDefault()
     
-    const amountNum = parseFloat(amount)
-    
-    if (!amount || isNaN(amountNum) || amountNum <= 0) {
-      toast.error('Please enter a valid amount')
-      return
+    if (!budget || !budget.id) {
+      toast.error('Budget not found');
+      return;
     }
-    
-    if (transactionType === 'withdraw' && amountNum > budget.balance) {
-      toast.error('Insufficient balance')
-      return
-    }
-    
-    // Update balance and attach transaction to the specific budget's transactions array
-    const newTransaction = {
-      id: Date.now(),
+
+    const result = await addTransaction(budget.id, {
       type: transactionType,
-      amount: amountNum,
-      description: description || (transactionType === 'add' ? 'Deposit' : 'Withdrawal'),
-      date: date ? new Date(date).toISOString() : new Date().toISOString(),
-      repeat: repeat || 'none'
+      amount: amount,
+      description: description,
+      date: date,
+      repeat: repeat
+    });
+
+    if (result.success) {
+      // reset form
+      setAmount('')
+      setDescription('')
+      setDate(new Date().toISOString().slice(0,10))
+      setRepeat('none')
+      
+      toast.success(
+        transactionType === 'add' 
+          ? `Added $${result.transaction.amount} to ${budgetName}` 
+          : `Withdrew $${result.transaction.amount} from ${budgetName}`
+      )
+    } else {
+      toast.error(result.error || 'Failed to add transaction');
     }
-
-    const updatedBudgets = budgets.map(b => {
-      if (b.name === budgetName) {
-        const existingTransactions = Array.isArray(b.transactions) ? b.transactions : []
-        return {
-          ...b,
-          balance: transactionType === 'add' ? b.balance + amountNum : b.balance - amountNum,
-          transactions: [newTransaction, ...existingTransactions]
-        }
-      }
-      return b
-    })
-
-    setBudgets(updatedBudgets)
-
-    // reset form
-    setAmount('')
-    setDescription('')
-    setDate(new Date().toISOString().slice(0,10))
-    setRepeat('none')
-    
-    toast.success(
-      transactionType === 'add' 
-        ? `Added $${amountNum} to ${budgetName}` 
-        : `Withdrew $${amountNum} from ${budgetName}`
-    )
   }
   
   return (
@@ -114,7 +107,7 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
           <h1 className={styles['budget-name']}>{budget.name}</h1>
           <div className={styles['budget-balance']}>
             <span className={styles['balance-label']}>Current Balance</span>
-            <span className={styles['balance-amount']}>${budget.balance.toLocaleString()}</span>
+            <span className={styles['balance-amount']}>${budget.currentBalance.toLocaleString()}</span>
           </div>
         </div>
         
@@ -224,14 +217,14 @@ const BudgetDetail = ({ budgets, setBudgets }) => {
           <div className={styles['history-section']}>
             <h2 className={styles['section-title']}>Transaction History</h2>
             
-            {(!(budget.transactions && budget.transactions.length)) ? (
+            {(!(budget.transactionList && budget.transactionList.length)) ? (
               <div className={styles['empty-state']}>
                 <p>No transactions yet</p>
                 <p className={styles['empty-hint']}>Add your first transaction to get started</p>
               </div>
             ) : (
               <div className={styles['transaction-list']}>
-                {(budget.transactions || []).map((transaction) => (
+                {(budget.transactionList || []).map((transaction) => (
                   <div
                     key={transaction.id}
                     className={`${styles['transaction-item']} ${

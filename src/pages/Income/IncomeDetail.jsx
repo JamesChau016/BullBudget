@@ -4,9 +4,11 @@ import styles from './IncomeDetail.module.css'
 import Header from '../../components/Header/Header'
 import NavigationButton from '../../components/NavigationButton/NavigationButton'
 import toast from 'react-hot-toast'
+import { useIncome } from '../../backend/useIncome.jsx'
 
-const IncomeDetail = ({ income, setIncome }) => {
+const IncomeDetail = () => {
   const navigate = useNavigate()
+  const { income, addIncomeTransaction } = useIncome()
   
   // Form states
   const [amount, setAmount] = useState('')
@@ -14,64 +16,29 @@ const IncomeDetail = ({ income, setIncome }) => {
   const [date, setDate] = useState(() => new Date().toISOString().slice(0,10))
   const [repeat, setRepeat] = useState('none')
 
-  // Safety check - initialize income if undefined using useEffect
-  React.useEffect(() => {
-    if (!income && setIncome) {
-      setIncome({ balance: 0, transactions: [] })
-    }
-  }, [income, setIncome])
-
   const handleBack = () => navigate('/dashboard')
-  
-  // If setIncome is not provided, show error
-  if (!setIncome) {
-    console.error('IncomeDetail: setIncome prop is not provided')
-    navigate('/dashboard')
-    return null
-  }
-  
-  // Return early if income hasn't been initialized yet
-  if (!income) {
-    return <div>Loading...</div>
-  }
 
-  const handleTransaction = (e) => {
+  const handleTransaction = async (e) => {
     e.preventDefault()
     
-    const amountNum = parseFloat(amount)
-    
-    if (!amount || isNaN(amountNum) || amountNum <= 0) {
-      toast.error('Please enter a valid amount')
-      return
+    const result = await addIncomeTransaction({
+      amount: amount,
+      description: description,
+      date: date,
+      repeat: repeat
+    });
+
+    if (result.success) {
+      // Reset form
+      setAmount('')
+      setDescription('')
+      setDate(new Date().toISOString().slice(0,10))
+      setRepeat('none')
+      
+      toast.success(`Added $${result.transaction.amount} to Income`)
+    } else {
+      toast.error(result.error || 'Failed to add income transaction');
     }
-    
-    // Create new transaction (always adding to income)
-    const newTransaction = {
-      id: Date.now(),
-      type: 'add',
-      amount: amountNum,
-      description: description || 'Income',
-      date: date ? new Date(date).toISOString() : new Date().toISOString(),
-      repeat: repeat || 'none'
-    }
-
-    const newIncome = {
-      balance: income.balance + amountNum,
-      transactions: [newTransaction, ...(income.transactions || [])]
-    }
-
-    // console.log('Updating income from', income.balance, 'to', newIncome.balance); // Debug log
-
-    // Update income with new balance and transaction
-    setIncome(newIncome)
-
-    // Reset form
-    setAmount('')
-    setDescription('')
-    setDate(new Date().toISOString().slice(0,10))
-    setRepeat('none')
-    
-    toast.success(`Added ${amountNum} to Income`)
   }
 
   return (

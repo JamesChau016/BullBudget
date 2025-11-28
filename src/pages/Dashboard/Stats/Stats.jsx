@@ -5,7 +5,7 @@ import dashboardStyles from '../Dashboard.module.css'
 
 const Stats = ({ budgets, income }) => {
 
-  const budgetsTotal = budgets.reduce((sum, jar) => sum + jar.balance, 0);
+  const budgetsTotal = budgets.reduce((sum, jar) => sum + jar.currentBalance, 0);
   const numBudgets = budgets.length;
   
   // Safety check for income
